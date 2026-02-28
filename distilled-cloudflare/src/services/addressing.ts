@@ -27,8 +27,8 @@ export class AddressMapNotFound extends Schema.TaggedErrorClass<AddressMapNotFou
   { code: Schema.Number, message: Schema.String },
 ) {}
 T.applyErrorMatchers(AddressMapNotFound, [
-  { code: 1000, message: { includes: "not_found" } },
   { code: 1000 },
+  { code: 1000, message: { includes: "not_found" } },
 ]);
 
 export class BgpPrefixNotFound extends Schema.TaggedErrorClass<BgpPrefixNotFound>()(

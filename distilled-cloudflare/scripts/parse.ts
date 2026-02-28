@@ -535,6 +535,23 @@ function extractHttpMethod(
         // Also handle getAPIList (paginated GET) and postAPIList (paginated POST)
         if (methodName === "GETAPILIST") {
           httpMethod = "GET";
+          // Check for { method: 'post' } override in the options argument
+          // Pattern: this._client.getAPIList(url, PageClass, { body, method: 'post', ...options })
+          const optionsArg = node.arguments[2]; // 3rd argument is the options object
+          if (optionsArg && ts.isObjectLiteralExpression(optionsArg)) {
+            for (const prop of optionsArg.properties) {
+              if (
+                ts.isPropertyAssignment(prop) &&
+                prop.name.getText() === "method" &&
+                ts.isStringLiteral(prop.initializer)
+              ) {
+                const override = prop.initializer.text.toUpperCase();
+                if (["GET", "POST", "PUT", "PATCH", "DELETE"].includes(override)) {
+                  httpMethod = override as typeof httpMethod;
+                }
+              }
+            }
+          }
         } else if (methodName === "POSTAPILIST") {
           httpMethod = "POST";
         }
@@ -546,6 +563,73 @@ function extractHttpMethod(
 
   visit(methodBody);
   return httpMethod;
+}
+
+/**
+ * Detect if a method body uses Core.multipartFormRequestOptions
+ */
+function detectMultipart(methodBody: ts.Block): boolean {
+  let isMultipart = false;
+
+  function visit(node: ts.Node) {
+    if (ts.isCallExpression(node)) {
+      const expr = node.expression;
+      // Look for Core.multipartFormRequestOptions(...) or multipartFormRequestOptions(...)
+      if (ts.isPropertyAccessExpression(expr)) {
+        if (expr.name.getText() === "multipartFormRequestOptions") {
+          isMultipart = true;
+          return;
+        }
+      } else if (ts.isIdentifier(expr)) {
+        if (expr.text === "multipartFormRequestOptions") {
+          isMultipart = true;
+          return;
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+
+  visit(methodBody);
+  return isMultipart;
+}
+
+/**
+ * Detect pagination type from the page class used in getAPIList/postAPIList calls.
+ * Returns "items" for V4PagePagination (result.items wrapper), "array" for V4PagePaginationArray/SinglePage (bare array).
+ */
+function detectPaginationType(methodBody: ts.Block): "items" | "array" | undefined {
+  let paginationType: "items" | "array" | undefined;
+
+  function visit(node: ts.Node) {
+    if (ts.isCallExpression(node)) {
+      const expr = node.expression;
+      if (
+        ts.isPropertyAccessExpression(expr) &&
+        ts.isPropertyAccessExpression(expr.expression)
+      ) {
+        const methodName = expr.name.getText().toUpperCase();
+        if (methodName === "GETAPILIST" || methodName === "POSTAPILIST") {
+          // 2nd argument is the page class reference
+          const pageClassArg = node.arguments[1];
+          if (pageClassArg) {
+            const pageClassName = pageClassArg.getText();
+            // V4PagePagination uses result.items wrapper
+            // V4PagePaginationArray and SinglePage use result directly as array
+            if (pageClassName.includes("V4PagePagination") && !pageClassName.includes("V4PagePaginationArray")) {
+              paginationType = "items";
+            } else {
+              paginationType = "array";
+            }
+          }
+        }
+      }
+    }
+    ts.forEachChild(node, visit);
+  }
+
+  visit(methodBody);
+  return paginationType;
 }
 
 /**
@@ -805,6 +889,12 @@ function parseMethod(
   // Extract header name mappings
   const headerNames = extractHeaderNames(body);
 
+  // Detect multipart form request options
+  const isMultipart = detectMultipart(body);
+
+  // Detect pagination type (items wrapper vs bare array)
+  const paginationType = detectPaginationType(body);
+
   // Find the params type from method signature
   // Also extract leading positional parameters (like `bucketName: string`)
   let paramsTypeName: string | undefined;
@@ -979,6 +1069,8 @@ function parseMethod(
     responseTypeName,
     sourceFile: sourceFile.fileName,
     registry,
+    isMultipart: isMultipart || undefined,
+    paginationType,
   };
 }
 

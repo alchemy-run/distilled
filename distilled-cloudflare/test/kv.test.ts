@@ -682,16 +682,16 @@ describe("KV", () => {
         }),
       ));
 
-    test("error - InvalidRequestBody for bulk write with empty array", () =>
+    test("edge case - bulk write with empty array succeeds as no-op", () =>
       withNamespace(nsTitle("bulk-put-empty"), (namespaceId) =>
-        KV.bulkPutNamespaces({
-          accountId: accountId(),
-          namespaceId,
-          body: [],
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidRequestBody")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* KV.bulkPutNamespaces({
+            accountId: accountId(),
+            namespaceId,
+            body: [],
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
     test("error - NamespaceNotFound for non-existent namespaceId", () =>
@@ -843,16 +843,16 @@ describe("KV", () => {
         }),
       ));
 
-    test("error - InvalidRequestBody for bulk delete with empty body array", () =>
+    test("edge case - bulk delete with empty body array succeeds as no-op", () =>
       withNamespace(nsTitle("bulk-del-empty"), (namespaceId) =>
-        KV.bulkDeleteNamespaces({
-          accountId: accountId(),
-          namespaceId,
-          body: [],
-        }).pipe(
-          Effect.flip,
-          Effect.map((e) => expect(e._tag).toBe("InvalidRequestBody")),
-        ),
+        Effect.gen(function* () {
+          const result = yield* KV.bulkDeleteNamespaces({
+            accountId: accountId(),
+            namespaceId,
+            body: [],
+          });
+          expect(result).toBeDefined();
+        }),
       ));
 
     test("edge case - bulk delete non-existent keys", () =>

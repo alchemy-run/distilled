@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "WorkerNotFound": [{ "code": 10007 }],
+    "ContentTypeRequired": [{ "code": 10001 }]
+  },
+  "response": {
+    "properties": {
+      "placement": { "type": "unknown" }
+    }
+  }
+}

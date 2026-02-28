@@ -19,6 +19,36 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidMessageBody extends Schema.TaggedErrorClass<InvalidMessageBody>()(
+  "InvalidMessageBody",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidMessageBody, [{ code: 10207 }]);
+
+export class InvalidQueueName extends Schema.TaggedErrorClass<InvalidQueueName>()(
+  "InvalidQueueName",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidQueueName, [{ code: 11003 }]);
+
+export class InvalidRequestBody extends Schema.TaggedErrorClass<InvalidRequestBody>()(
+  "InvalidRequestBody",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRequestBody, [{ code: 10026 }]);
+
+export class UnrecognizedEventType extends Schema.TaggedErrorClass<UnrecognizedEventType>()(
+  "UnrecognizedEventType",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(UnrecognizedEventType, [
+  { code: 0, message: { includes: "Unrecognized event types" } },
+]);
+
+// =============================================================================
 // Consumer
 // =============================================================================
 
@@ -133,7 +163,7 @@ export const GetConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<GetConsumerResponse>;
 
-export type GetConsumerError = CommonErrors;
+export type GetConsumerError = CommonErrors | InvalidRequestBody;
 
 export const getConsumer: API.OperationMethod<
   GetConsumerRequest,
@@ -143,7 +173,7 @@ export const getConsumer: API.OperationMethod<
 > = API.make(() => ({
   input: GetConsumerRequest,
   output: GetConsumerResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 export interface ListConsumersRequest {
@@ -258,7 +288,7 @@ export const ListConsumersResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListConsumersResponse>;
 
-export type ListConsumersError = CommonErrors;
+export type ListConsumersError = CommonErrors | InvalidRequestBody;
 
 export const listConsumers: API.OperationMethod<
   ListConsumersRequest,
@@ -268,7 +298,7 @@ export const listConsumers: API.OperationMethod<
 > = API.make(() => ({
   input: ListConsumersRequest,
   output: ListConsumersResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 export interface CreateConsumerRequest {
@@ -420,7 +450,7 @@ export const CreateConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<CreateConsumerResponse>;
 
-export type CreateConsumerError = CommonErrors;
+export type CreateConsumerError = CommonErrors | InvalidRequestBody;
 
 export const createConsumer: API.OperationMethod<
   CreateConsumerRequest,
@@ -430,7 +460,7 @@ export const createConsumer: API.OperationMethod<
 > = API.make(() => ({
   input: CreateConsumerRequest,
   output: CreateConsumerResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 export interface UpdateConsumerRequest {
@@ -584,7 +614,7 @@ export const UpdateConsumerResponse = Schema.Union([
   ),
 ]) as unknown as Schema.Schema<UpdateConsumerResponse>;
 
-export type UpdateConsumerError = CommonErrors;
+export type UpdateConsumerError = CommonErrors | InvalidRequestBody;
 
 export const updateConsumer: API.OperationMethod<
   UpdateConsumerRequest,
@@ -594,7 +624,7 @@ export const updateConsumer: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateConsumerRequest,
   output: UpdateConsumerResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 export interface DeleteConsumerRequest {
@@ -628,7 +658,7 @@ export const DeleteConsumerResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<DeleteConsumerResponse>;
 
-export type DeleteConsumerError = CommonErrors;
+export type DeleteConsumerError = CommonErrors | InvalidRequestBody;
 
 export const deleteConsumer: API.OperationMethod<
   DeleteConsumerRequest,
@@ -638,7 +668,7 @@ export const deleteConsumer: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteConsumerRequest,
   output: DeleteConsumerResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 // =============================================================================
@@ -711,7 +741,7 @@ export const BulkPushMessagesResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<BulkPushMessagesResponse>;
 
-export type BulkPushMessagesError = CommonErrors;
+export type BulkPushMessagesError = CommonErrors | InvalidMessageBody;
 
 export const bulkPushMessages: API.OperationMethod<
   BulkPushMessagesRequest,
@@ -721,7 +751,7 @@ export const bulkPushMessages: API.OperationMethod<
 > = API.make(() => ({
   input: BulkPushMessagesRequest,
   output: BulkPushMessagesResponse,
-  errors: [],
+  errors: [InvalidMessageBody],
 }));
 
 export interface PullMessageRequest {
@@ -793,7 +823,7 @@ export const PullMessageResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PullMessageResponse>;
 
-export type PullMessageError = CommonErrors;
+export type PullMessageError = CommonErrors | InvalidRequestBody;
 
 export const pullMessage: API.OperationMethod<
   PullMessageRequest,
@@ -803,7 +833,7 @@ export const pullMessage: API.OperationMethod<
 > = API.make(() => ({
   input: PullMessageRequest,
   output: PullMessageResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 export interface PushMessageRequest {
@@ -848,7 +878,7 @@ export const PushMessageResponse = Schema.Struct({
   success: Schema.optional(Schema.Literal(true)),
 }) as unknown as Schema.Schema<PushMessageResponse>;
 
-export type PushMessageError = CommonErrors;
+export type PushMessageError = CommonErrors | InvalidMessageBody;
 
 export const pushMessage: API.OperationMethod<
   PushMessageRequest,
@@ -858,7 +888,7 @@ export const pushMessage: API.OperationMethod<
 > = API.make(() => ({
   input: PushMessageRequest,
   output: PushMessageResponse,
-  errors: [],
+  errors: [InvalidMessageBody],
 }));
 
 export interface AckMessageRequest {
@@ -915,7 +945,7 @@ export const AckMessageResponse = Schema.Struct({
   warnings: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<AckMessageResponse>;
 
-export type AckMessageError = CommonErrors;
+export type AckMessageError = CommonErrors | InvalidRequestBody;
 
 export const ackMessage: API.OperationMethod<
   AckMessageRequest,
@@ -925,7 +955,7 @@ export const ackMessage: API.OperationMethod<
 > = API.make(() => ({
   input: AckMessageRequest,
   output: AckMessageResponse,
-  errors: [],
+  errors: [InvalidRequestBody],
 }));
 
 // =============================================================================
@@ -1409,7 +1439,7 @@ export const UpdateQueueResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<UpdateQueueResponse>;
 
-export type UpdateQueueError = CommonErrors;
+export type UpdateQueueError = CommonErrors | InvalidQueueName;
 
 export const updateQueue: API.OperationMethod<
   UpdateQueueRequest,
@@ -1419,7 +1449,7 @@ export const updateQueue: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateQueueRequest,
   output: UpdateQueueResponse,
-  errors: [],
+  errors: [InvalidQueueName],
 }));
 
 export interface PatchQueueRequest {
@@ -1678,7 +1708,7 @@ export const GetSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetSubscriptionResponse>;
 
-export type GetSubscriptionError = CommonErrors;
+export type GetSubscriptionError = CommonErrors | UnrecognizedEventType;
 
 export const getSubscription: API.OperationMethod<
   GetSubscriptionRequest,
@@ -1688,7 +1718,7 @@ export const getSubscription: API.OperationMethod<
 > = API.make(() => ({
   input: GetSubscriptionRequest,
   output: GetSubscriptionResponse,
-  errors: [],
+  errors: [UnrecognizedEventType],
 }));
 
 export interface ListSubscriptionsRequest {
@@ -1958,7 +1988,7 @@ export const CreateSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateSubscriptionResponse>;
 
-export type CreateSubscriptionError = CommonErrors;
+export type CreateSubscriptionError = CommonErrors | UnrecognizedEventType;
 
 export const createSubscription: API.OperationMethod<
   CreateSubscriptionRequest,
@@ -1968,7 +1998,7 @@ export const createSubscription: API.OperationMethod<
 > = API.make(() => ({
   input: CreateSubscriptionRequest,
   output: CreateSubscriptionResponse,
-  errors: [],
+  errors: [UnrecognizedEventType],
 }));
 
 export interface PatchSubscriptionRequest {
@@ -2084,7 +2114,7 @@ export const PatchSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchSubscriptionResponse>;
 
-export type PatchSubscriptionError = CommonErrors;
+export type PatchSubscriptionError = CommonErrors | UnrecognizedEventType;
 
 export const patchSubscription: API.OperationMethod<
   PatchSubscriptionRequest,
@@ -2094,7 +2124,7 @@ export const patchSubscription: API.OperationMethod<
 > = API.make(() => ({
   input: PatchSubscriptionRequest,
   output: PatchSubscriptionResponse,
-  errors: [],
+  errors: [UnrecognizedEventType],
 }));
 
 export interface DeleteSubscriptionRequest {
@@ -2193,7 +2223,7 @@ export const DeleteSubscriptionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteSubscriptionResponse>;
 
-export type DeleteSubscriptionError = CommonErrors;
+export type DeleteSubscriptionError = CommonErrors | UnrecognizedEventType;
 
 export const deleteSubscription: API.OperationMethod<
   DeleteSubscriptionRequest,
@@ -2203,5 +2233,5 @@ export const deleteSubscription: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteSubscriptionRequest,
   output: DeleteSubscriptionResponse,
-  errors: [],
+  errors: [UnrecognizedEventType],
 }));

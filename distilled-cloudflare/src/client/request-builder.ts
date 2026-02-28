@@ -26,6 +26,13 @@ export interface ProtocolRequest {
  * for nested body fields, then categorizes properties by their HTTP trait
  * annotations (path, query, header, body).
  */
+/**
+ * Check if a value is a File or Blob.
+ */
+function isFileOrBlob(value: unknown): value is File | Blob {
+  return value instanceof File || value instanceof Blob;
+}
+
 export const buildRequest = <I>(
   inputSchema: Schema.Schema<I>,
   payload: I,
@@ -53,6 +60,17 @@ export const buildRequest = <I>(
   // Get struct properties from the encoded (wire) side of the AST.
   // Annotations (HttpPath, HttpQuery, etc.) are on these properties.
   const props = getStructProperties(ast);
+
+  // Check if this is a multipart operation (from T.Http contentType)
+  const isMultipartOp = httpOp.contentType === "multipart";
+
+  // For multipart operations, collect body properties first, then build FormData
+  const bodyProps: Array<{
+    name: string;
+    wireName: string;
+    value: unknown;
+    prop: AST.PropertySignature;
+  }> = [];
 
   for (const prop of props) {
     const name = String(prop.name);
@@ -105,25 +123,74 @@ export const buildRequest = <I>(
       continue;
     }
 
-    // Default: add to body if it's an object property with no annotation.
-    // Use JsonName annotation for wire-format key if present (camelCase → snake_case).
+    // Collect body properties
     const wireName = T.getJsonName(prop) ?? name;
-    if (body === undefined) {
-      body = {};
+    bodyProps.push({ name, wireName, value, prop });
+  }
+
+  // Build body from collected properties
+  if (isMultipartOp && bodyProps.length > 0) {
+    // Multipart operation: build a FormData from body properties
+    const formData = new FormData();
+
+    for (const { wireName, value } of bodyProps) {
+      if (isFileOrBlob(value)) {
+        // Single file/blob
+        formData.append(
+          wireName,
+          value,
+          value instanceof File ? value.name : wireName,
+        );
+      } else if (Array.isArray(value) && value.length > 0 && isFileOrBlob(value[0])) {
+        // Array of files/blobs
+        for (const file of value) {
+          if (isFileOrBlob(file)) {
+            formData.append(
+              file instanceof File ? file.name : wireName,
+              file,
+              file instanceof File ? file.name : undefined,
+            );
+          }
+        }
+      } else if (typeof value === "object" && value !== null) {
+        // Object → append as JSON blob
+        formData.append(
+          wireName,
+          new Blob([JSON.stringify(value)], {
+            type: "application/json",
+          }),
+          wireName,
+        );
+      } else {
+        // Primitive → append as string
+        formData.append(wireName, String(value));
+      }
     }
-    if (typeof body === "object" && body !== null) {
-      // Recursively remap nested object keys to wire-format
-      (body as Record<string, unknown>)[wireName] = remapKeysForEncode(
-        value,
-        prop.type,
-      );
+
+    body = formData;
+    contentType = "multipart/form-data";
+  } else {
+    // Non-multipart: build plain JSON body as before
+    for (const { wireName, value, prop } of bodyProps) {
+      if (body === undefined) {
+        body = {};
+      }
+      if (typeof body === "object" && body !== null) {
+        // Recursively remap nested object keys to wire-format
+        (body as Record<string, unknown>)[wireName] = remapKeysForEncode(
+          value,
+          prop.type,
+        );
+      }
     }
   }
 
   // Determine if the body should be included
   // FormData doesn't have enumerable keys, so we need to check for it specifically
+  // Arrays (e.g. empty arrays) are valid bodies even with no enumerable keys
   const hasBody =
     body instanceof FormData ||
+    Array.isArray(body) ||
     (body !== undefined &&
       body !== null &&
       Object.keys(body as object).length > 0);

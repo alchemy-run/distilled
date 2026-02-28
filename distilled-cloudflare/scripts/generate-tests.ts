@@ -13,6 +13,7 @@
 import { NodeRuntime, NodeServices } from "@effect/platform-node";
 import { Console, Effect, FileSystem, Schema } from "effect";
 import * as ChildProcess from "effect/unstable/process/ChildProcess";
+import { spawn } from "node:child_process";
 import * as path from "node:path";
 import * as url from "node:url";
 import { startVitest } from "vitest/node";
@@ -77,6 +78,49 @@ const filterServices = (services: string[], filter: string): string[] => {
   return services.filter((s) => allowed.has(s.toLowerCase()));
 };
 
+/**
+ * Spawn opencode as a child process using Node.js spawn.
+ *
+ * Effect's ChildProcess.make hangs when spawning opencode because opencode
+ * blocks on stdin when it's a pipe (even with stdin: "ignore"). Using Node's
+ * native spawn with stdio: ["ignore", "pipe", "pipe"] works correctly.
+ */
+const runOpencode = (
+  model: string,
+  prompt: string,
+  cwd: string,
+): Effect.Effect<string, Error> =>
+  Effect.tryPromise({
+    try: () =>
+      new Promise<string>((resolve, reject) => {
+        const cp = spawn("opencode", ["run", "--model", model, prompt], {
+          cwd,
+          stdio: ["ignore", "pipe", "pipe"],
+        });
+        let stdout = "";
+        let stderr = "";
+        cp.stdout.on("data", (d: Buffer) => {
+          stdout += d.toString();
+        });
+        cp.stderr.on("data", (d: Buffer) => {
+          stderr += d.toString();
+          // Stream opencode's progress to console in real-time
+          process.stderr.write(d);
+        });
+        cp.on("close", (code: number) => {
+          if (code === 0) resolve(stdout);
+          else
+            reject(
+              new Error(
+                `opencode exited with code ${code}\nstderr: ${stderr}`,
+              ),
+            );
+        });
+        cp.on("error", reject);
+      }),
+    catch: (e) => e as Error,
+  });
+
 const generateSdk = Effect.fn(function* () {
   yield* ChildProcess.make("bun", ["run", "generate"], {
     cwd: PROJECT_ROOT,
@@ -120,11 +164,11 @@ const generateTests = Effect.fn(function* (svc: string, showChat: boolean) {
     MAKE SURE TO WRITE HAPPY PATH TESTS FOR EVERY OPERATION.
   `;
 
-  const result = yield* ChildProcess.make(
-    "opencode",
-    ["run", "--model", "anthropic/claude-opus-4-6", prompt],
-    { cwd: PROJECT_ROOT },
-  ).pipe(ChildProcess.string());
+  const result = yield* runOpencode(
+    "anthropic/claude-opus-4-6",
+    prompt,
+    PROJECT_ROOT,
+  );
 
   if (showChat) {
     yield* Console.log(result);
@@ -167,11 +211,11 @@ const updateErrors = Effect.fn(function* (svc: string, showChat: boolean) {
     Only create patch files for operations that had at least one failed test.
     DO NOT MODIFY ANY EXISTING FILES IN src.`;
 
-  const result = yield* ChildProcess.make(
-    "opencode",
-    ["run", "--model", "anthropic/claude-sonnet-4-6", prompt],
-    { cwd: PROJECT_ROOT },
-  ).pipe(ChildProcess.string());
+  const result = yield* runOpencode(
+    "anthropic/claude-sonnet-4-6",
+    prompt,
+    PROJECT_ROOT,
+  );
 
   if (showChat) {
     yield* Console.log(result);
@@ -190,11 +234,11 @@ const repairTests = Effect.fn(function* (svc: string, showChat: boolean) {
     if the test is broken write patch files and run \`bun generate --service ${svc}\` to regenerate the sdk with new errors.
     `;
 
-  const result = yield* ChildProcess.make(
-    "opencode",
-    ["run", "--model", "anthropic/claude-opus-4-6", prompt],
-    { cwd: PROJECT_ROOT },
-  ).pipe(ChildProcess.string());
+  const result = yield* runOpencode(
+    "anthropic/claude-opus-4-6",
+    prompt,
+    PROJECT_ROOT,
+  );
 
   if (showChat) {
     yield* Console.log(result);

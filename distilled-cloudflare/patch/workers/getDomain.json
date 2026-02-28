@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "DomainNotFound": [{ "code": 100114 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  }
+}
