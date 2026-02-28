@@ -16,7 +16,7 @@
     },
     "distilled-aws": {
       "name": "distilled-aws",
-      "version": "0.0.24",
+      "version": "0.0.26",
       "dependencies": {
         "@aws-crypto/crc32": "^5.2.0",
         "@aws-crypto/util": "^5.2.0",
@@ -47,7 +47,7 @@
     },
     "distilled-cloudflare": {
       "name": "distilled-cloudflare",
-      "version": "0.0.1",
+      "version": "0.0.4",
       "dependencies": {
         "effect": "catalog:",
       },
@@ -77,6 +77,21 @@
       "peerDependencies": {
         "effect": "catalog:",
         "jose": ">=6.0.0",
+      },
+    },
+    "distilled-gcp": {
+      "name": "distilled-gcp",
+      "version": "0.0.1",
+      "dependencies": {
+        "effect": "catalog:",
+      },
+      "devDependencies": {
+        "@effect/platform-node": "catalog:",
+        "@effect/vitest": "catalog:",
+        "@types/bun": "catalog:",
+        "oxfmt": "catalog:",
+        "vite": "catalog:",
+        "vitest": "catalog:",
       },
     },
     "distilled-neon": {
@@ -941,6 +956,8 @@
     "distilled-cloudflare": ["distilled-cloudflare@workspace:distilled-cloudflare"],
 
     "distilled-coinbase": ["distilled-coinbase@workspace:distilled-coinbase"],
+
+    "distilled-gcp": ["distilled-gcp@workspace:distilled-gcp"],
 
     "distilled-neon": ["distilled-neon@workspace:distilled-neon"],
 
