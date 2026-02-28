@@ -1,0 +1,67 @@
+{
+  "name": "distilled-gcp",
+  "version": "0.0.1",
+  "type": "module",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "exports": {
+    "./*": {
+      "types": "./lib/services/*.d.ts",
+      "bun": "./src/services/*.ts",
+      "default": "./lib/services/*.js"
+    },
+    "./Auth": {
+      "types": "./lib/auth.d.ts",
+      "bun": "./src/auth.ts",
+      "default": "./lib/auth.js"
+    },
+    "./Category": {
+      "types": "./lib/category.d.ts",
+      "bun": "./src/category.ts",
+      "default": "./lib/category.js"
+    },
+    "./Errors": {
+      "types": "./lib/errors.d.ts",
+      "bun": "./src/errors.ts",
+      "default": "./lib/errors.js"
+    },
+    "./Traits": {
+      "types": "./lib/traits.d.ts",
+      "bun": "./src/traits.ts",
+      "default": "./lib/traits.js"
+    },
+    "./Retry": {
+      "types": "./lib/retry.d.ts",
+      "bun": "./src/retry.ts",
+      "default": "./lib/retry.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "bun": "./src/index.ts",
+      "default": "./lib/index.js"
+    }
+  },
+  "scripts": {
+    "setup": "bun run scripts/setup.ts",
+    "fetch-specs": "bun run scripts/fetch-specs.ts",
+    "generate": "bun run scripts/generate-clients.ts",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "typecheck": "tsc -b",
+    "lint": "oxlint",
+    "format": "oxfmt './src' './test' './scripts'"
+  },
+  "dependencies": {
+    "effect": "catalog:"
+  },
+  "devDependencies": {
+    "@effect/platform-node": "catalog:",
+    "@effect/vitest": "catalog:",
+    "@types/bun": "catalog:",
+    "oxfmt": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  }
+}
