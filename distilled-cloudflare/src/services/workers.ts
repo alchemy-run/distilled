@@ -20,6 +20,70 @@ import {
 import { UploadableSchema } from "../schemas.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class ContentTypeRequired extends Schema.TaggedErrorClass<ContentTypeRequired>()(
+  "ContentTypeRequired",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ContentTypeRequired, [{ code: 10001 }]);
+
+export class DeploymentNotFound extends Schema.TaggedErrorClass<DeploymentNotFound>()(
+  "DeploymentNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(DeploymentNotFound, [{ code: 10336 }]);
+
+export class DomainNotFound extends Schema.TaggedErrorClass<DomainNotFound>()(
+  "DomainNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(DomainNotFound, [{ code: 100114 }]);
+
+export class InvalidRoute extends Schema.TaggedErrorClass<InvalidRoute>()(
+  "InvalidRoute",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoute, [{ code: 7003 }]);
+
+export class InvalidRoutePattern extends Schema.TaggedErrorClass<InvalidRoutePattern>()(
+  "InvalidRoutePattern",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidRoutePattern, [{ code: 10022 }]);
+
+export class InvalidWorkerScript extends Schema.TaggedErrorClass<InvalidWorkerScript>()(
+  "InvalidWorkerScript",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidWorkerScript, [{ code: 10068 }]);
+
+export class RouteNotFound extends Schema.TaggedErrorClass<RouteNotFound>()(
+  "RouteNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(RouteNotFound, [{ code: 10009 }]);
+
+export class SecretNotFound extends Schema.TaggedErrorClass<SecretNotFound>()(
+  "SecretNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(SecretNotFound, [{ code: 10056 }]);
+
+export class VersionNotFound extends Schema.TaggedErrorClass<VersionNotFound>()(
+  "VersionNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(VersionNotFound, [{ code: 100146 }]);
+
+export class WorkerNotFound extends Schema.TaggedErrorClass<WorkerNotFound>()(
+  "WorkerNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(WorkerNotFound, [{ code: 10007 }, { code: 10013 }]);
+
+// =============================================================================
 // AccountSetting
 // =============================================================================
 
@@ -52,7 +116,7 @@ export const GetAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetAccountSettingResponse>;
 
-export type GetAccountSettingError = CommonErrors;
+export type GetAccountSettingError = CommonErrors | InvalidRoute;
 
 export const getAccountSetting: API.OperationMethod<
   GetAccountSettingRequest,
@@ -62,7 +126,7 @@ export const getAccountSetting: API.OperationMethod<
 > = API.make(() => ({
   input: GetAccountSettingRequest,
   output: GetAccountSettingResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface PutAccountSettingRequest {
@@ -104,7 +168,7 @@ export const PutAccountSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutAccountSettingResponse>;
 
-export type PutAccountSettingError = CommonErrors;
+export type PutAccountSettingError = CommonErrors | InvalidRoute;
 
 export const putAccountSetting: API.OperationMethod<
   PutAccountSettingRequest,
@@ -114,7 +178,7 @@ export const putAccountSetting: API.OperationMethod<
 > = API.make(() => ({
   input: PutAccountSettingRequest,
   output: PutAccountSettingResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -138,6 +202,7 @@ export const CreateAssetUploadRequest = Schema.Struct({
   T.Http({
     method: "POST",
     path: "/accounts/{account_id}/workers/assets/upload",
+    contentType: "multipart",
   }),
 ) as unknown as Schema.Schema<CreateAssetUploadRequest>;
 
@@ -150,7 +215,7 @@ export const CreateAssetUploadResponse = Schema.Struct({
   jwt: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateAssetUploadResponse>;
 
-export type CreateAssetUploadError = CommonErrors;
+export type CreateAssetUploadError = CommonErrors | InvalidRoute;
 
 export const createAssetUpload: API.OperationMethod<
   CreateAssetUploadRequest,
@@ -160,7 +225,7 @@ export const createAssetUpload: API.OperationMethod<
 > = API.make(() => ({
   input: CreateAssetUploadRequest,
   output: CreateAssetUploadResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -195,7 +260,7 @@ export const GetBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<GetBetaWorkerResponse>;
 
-export type GetBetaWorkerError = CommonErrors;
+export type GetBetaWorkerError = CommonErrors | WorkerNotFound | InvalidRoute;
 
 export const getBetaWorker: API.OperationMethod<
   GetBetaWorkerRequest,
@@ -205,7 +270,7 @@ export const getBetaWorker: API.OperationMethod<
 > = API.make(() => ({
   input: GetBetaWorkerRequest,
   output: GetBetaWorkerResponse,
-  errors: [],
+  errors: [WorkerNotFound, InvalidRoute],
 }));
 
 export interface ListBetaWorkersRequest {
@@ -228,7 +293,7 @@ export const ListBetaWorkersResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListBetaWorkersResponse>;
 
-export type ListBetaWorkersError = CommonErrors;
+export type ListBetaWorkersError = CommonErrors | InvalidRoute;
 
 export const listBetaWorkers: API.OperationMethod<
   ListBetaWorkersRequest,
@@ -238,7 +303,7 @@ export const listBetaWorkers: API.OperationMethod<
 > = API.make(() => ({
   input: ListBetaWorkersRequest,
   output: ListBetaWorkersResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateBetaWorkerRequest {
@@ -338,7 +403,7 @@ export const CreateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<CreateBetaWorkerResponse>;
 
-export type CreateBetaWorkerError = CommonErrors;
+export type CreateBetaWorkerError = CommonErrors | InvalidRoute;
 
 export const createBetaWorker: API.OperationMethod<
   CreateBetaWorkerRequest,
@@ -348,7 +413,7 @@ export const createBetaWorker: API.OperationMethod<
 > = API.make(() => ({
   input: CreateBetaWorkerRequest,
   output: CreateBetaWorkerResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface UpdateBetaWorkerRequest {
@@ -453,7 +518,7 @@ export const UpdateBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<UpdateBetaWorkerResponse>;
 
-export type UpdateBetaWorkerError = CommonErrors;
+export type UpdateBetaWorkerError = CommonErrors | WorkerNotFound;
 
 export const updateBetaWorker: API.OperationMethod<
   UpdateBetaWorkerRequest,
@@ -463,7 +528,7 @@ export const updateBetaWorker: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateBetaWorkerRequest,
   output: UpdateBetaWorkerResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PatchBetaWorkerRequest {
@@ -562,7 +627,7 @@ export const PatchBetaWorkerResponse = Schema.Struct({
   name: Schema.String,
 }) as unknown as Schema.Schema<PatchBetaWorkerResponse>;
 
-export type PatchBetaWorkerError = CommonErrors;
+export type PatchBetaWorkerError = CommonErrors | WorkerNotFound;
 
 export const patchBetaWorker: API.OperationMethod<
   PatchBetaWorkerRequest,
@@ -572,7 +637,7 @@ export const patchBetaWorker: API.OperationMethod<
 > = API.make(() => ({
   input: PatchBetaWorkerRequest,
   output: PatchBetaWorkerResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteBetaWorkerRequest {
@@ -650,7 +715,7 @@ export const DeleteBetaWorkerResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerResponse>;
 
-export type DeleteBetaWorkerError = CommonErrors;
+export type DeleteBetaWorkerError = CommonErrors | WorkerNotFound;
 
 export const deleteBetaWorker: API.OperationMethod<
   DeleteBetaWorkerRequest,
@@ -660,7 +725,7 @@ export const deleteBetaWorker: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteBetaWorkerRequest,
   output: DeleteBetaWorkerResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -1169,7 +1234,7 @@ export const GetBetaWorkerVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetBetaWorkerVersionResponse>;
 
-export type GetBetaWorkerVersionError = CommonErrors;
+export type GetBetaWorkerVersionError = CommonErrors | WorkerNotFound;
 
 export const getBetaWorkerVersion: API.OperationMethod<
   GetBetaWorkerVersionRequest,
@@ -1179,7 +1244,7 @@ export const getBetaWorkerVersion: API.OperationMethod<
 > = API.make(() => ({
   input: GetBetaWorkerVersionRequest,
   output: GetBetaWorkerVersionResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface ListBetaWorkerVersionsRequest {
@@ -1665,7 +1730,7 @@ export const ListBetaWorkerVersionsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListBetaWorkerVersionsResponse>;
 
-export type ListBetaWorkerVersionsError = CommonErrors;
+export type ListBetaWorkerVersionsError = CommonErrors | WorkerNotFound;
 
 export const listBetaWorkerVersions: API.OperationMethod<
   ListBetaWorkerVersionsRequest,
@@ -1675,7 +1740,7 @@ export const listBetaWorkerVersions: API.OperationMethod<
 > = API.make(() => ({
   input: ListBetaWorkerVersionsRequest,
   output: ListBetaWorkerVersionsResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface CreateBetaWorkerVersionRequest {
@@ -2649,7 +2714,7 @@ export const CreateBetaWorkerVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateBetaWorkerVersionResponse>;
 
-export type CreateBetaWorkerVersionError = CommonErrors;
+export type CreateBetaWorkerVersionError = CommonErrors | WorkerNotFound;
 
 export const createBetaWorkerVersion: API.OperationMethod<
   CreateBetaWorkerVersionRequest,
@@ -2659,7 +2724,7 @@ export const createBetaWorkerVersion: API.OperationMethod<
 > = API.make(() => ({
   input: CreateBetaWorkerVersionRequest,
   output: CreateBetaWorkerVersionResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteBetaWorkerVersionRequest {
@@ -2739,7 +2804,7 @@ export const DeleteBetaWorkerVersionResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteBetaWorkerVersionResponse>;
 
-export type DeleteBetaWorkerVersionError = CommonErrors;
+export type DeleteBetaWorkerVersionError = CommonErrors | WorkerNotFound;
 
 export const deleteBetaWorkerVersion: API.OperationMethod<
   DeleteBetaWorkerVersionRequest,
@@ -2749,7 +2814,7 @@ export const deleteBetaWorkerVersion: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteBetaWorkerVersionRequest,
   output: DeleteBetaWorkerVersionResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -2805,7 +2870,7 @@ export const GetDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetDomainResponse>;
 
-export type GetDomainError = CommonErrors;
+export type GetDomainError = CommonErrors | DomainNotFound | InvalidRoute;
 
 export const getDomain: API.OperationMethod<
   GetDomainRequest,
@@ -2815,7 +2880,7 @@ export const getDomain: API.OperationMethod<
 > = API.make(() => ({
   input: GetDomainRequest,
   output: GetDomainResponse,
-  errors: [],
+  errors: [DomainNotFound, InvalidRoute],
 }));
 
 export interface ListDomainsRequest {
@@ -2873,7 +2938,7 @@ export const ListDomainsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListDomainsResponse>;
 
-export type ListDomainsError = CommonErrors;
+export type ListDomainsError = CommonErrors | InvalidRoute;
 
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
@@ -2883,7 +2948,7 @@ export const listDomains: API.OperationMethod<
 > = API.make(() => ({
   input: ListDomainsRequest,
   output: ListDomainsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface PutDomainRequest {
@@ -2948,7 +3013,7 @@ export const PutDomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutDomainResponse>;
 
-export type PutDomainError = CommonErrors;
+export type PutDomainError = CommonErrors | WorkerNotFound | InvalidRoute;
 
 export const putDomain: API.OperationMethod<
   PutDomainRequest,
@@ -2958,7 +3023,7 @@ export const putDomain: API.OperationMethod<
 > = API.make(() => ({
   input: PutDomainRequest,
   output: PutDomainResponse,
-  errors: [],
+  errors: [WorkerNotFound, InvalidRoute],
 }));
 
 export interface DeleteDomainRequest {
@@ -2982,7 +3047,7 @@ export type DeleteDomainResponse = unknown;
 export const DeleteDomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteDomainResponse>;
 
-export type DeleteDomainError = CommonErrors;
+export type DeleteDomainError = CommonErrors | DomainNotFound;
 
 export const deleteDomain: API.OperationMethod<
   DeleteDomainRequest,
@@ -2992,7 +3057,7 @@ export const deleteDomain: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteDomainRequest,
   output: DeleteDomainResponse,
-  errors: [],
+  errors: [DomainNotFound],
 }));
 
 // =============================================================================
@@ -3122,7 +3187,7 @@ export const KeysObservabilityTelemetryRequest = Schema.Struct({
   to: Schema.optional(Schema.Number),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/workers/observability/telemetry/keys",
   }),
 ) as unknown as Schema.Schema<KeysObservabilityTelemetryRequest>;
@@ -3141,7 +3206,7 @@ export const KeysObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<KeysObservabilityTelemetryResponse>;
 
-export type KeysObservabilityTelemetryError = CommonErrors;
+export type KeysObservabilityTelemetryError = CommonErrors | InvalidRoute;
 
 export const keysObservabilityTelemetry: API.OperationMethod<
   KeysObservabilityTelemetryRequest,
@@ -3151,7 +3216,7 @@ export const keysObservabilityTelemetry: API.OperationMethod<
 > = API.make(() => ({
   input: KeysObservabilityTelemetryRequest,
   output: KeysObservabilityTelemetryResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface QueryObservabilityTelemetryRequest {
@@ -3665,7 +3730,7 @@ export interface QueryObservabilityTelemetryResponse {
         url?: string;
       };
       dataset: string;
-      source: string;
+      source: unknown;
       timestamp: number;
       $containers?: unknown;
       $workers?:
@@ -3728,7 +3793,7 @@ export interface QueryObservabilityTelemetryResponse {
         count: number;
         interval: number;
         sampleInterval: number;
-        value: number;
+        value?: number;
         groups?: { key: string; value: string | number | boolean }[];
       }[];
       time: string;
@@ -4101,7 +4166,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
               url: Schema.optional(Schema.String),
             }),
             dataset: Schema.String,
-            source: Schema.String,
+            source: Schema.Unknown,
             timestamp: Schema.Number,
             $containers: Schema.optional(Schema.Unknown),
             $workers: Schema.optional(
@@ -4201,7 +4266,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
                 count: Schema.Number,
                 interval: Schema.Number,
                 sampleInterval: Schema.Number,
-                value: Schema.Number,
+                value: Schema.optional(Schema.Number),
                 groups: Schema.optional(
                   Schema.Array(
                     Schema.Struct({
@@ -4272,7 +4337,7 @@ export const QueryObservabilityTelemetryResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<QueryObservabilityTelemetryResponse>;
 
-export type QueryObservabilityTelemetryError = CommonErrors;
+export type QueryObservabilityTelemetryError = CommonErrors | InvalidRoute;
 
 export const queryObservabilityTelemetry: API.OperationMethod<
   QueryObservabilityTelemetryRequest,
@@ -4282,7 +4347,7 @@ export const queryObservabilityTelemetry: API.OperationMethod<
 > = API.make(() => ({
   input: QueryObservabilityTelemetryRequest,
   output: QueryObservabilityTelemetryResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface ValuesObservabilityTelemetryRequest {
@@ -4401,7 +4466,7 @@ export const ValuesObservabilityTelemetryRequest = Schema.Struct({
   ),
 }).pipe(
   T.Http({
-    method: "GET",
+    method: "POST",
     path: "/accounts/{account_id}/workers/observability/telemetry/values",
   }),
 ) as unknown as Schema.Schema<ValuesObservabilityTelemetryRequest>;
@@ -4422,7 +4487,7 @@ export const ValuesObservabilityTelemetryResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ValuesObservabilityTelemetryResponse>;
 
-export type ValuesObservabilityTelemetryError = CommonErrors;
+export type ValuesObservabilityTelemetryError = CommonErrors | InvalidRoute;
 
 export const valuesObservabilityTelemetry: API.OperationMethod<
   ValuesObservabilityTelemetryRequest,
@@ -4432,7 +4497,7 @@ export const valuesObservabilityTelemetry: API.OperationMethod<
 > = API.make(() => ({
   input: ValuesObservabilityTelemetryRequest,
   output: ValuesObservabilityTelemetryResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -4467,7 +4532,7 @@ export const GetRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<GetRouteResponse>;
 
-export type GetRouteError = CommonErrors;
+export type GetRouteError = CommonErrors | WorkerNotFound | InvalidRoute;
 
 export const getRoute: API.OperationMethod<
   GetRouteRequest,
@@ -4477,7 +4542,7 @@ export const getRoute: API.OperationMethod<
 > = API.make(() => ({
   input: GetRouteRequest,
   output: GetRouteResponse,
-  errors: [],
+  errors: [WorkerNotFound, InvalidRoute],
 }));
 
 export interface ListRoutesRequest {
@@ -4505,7 +4570,7 @@ export const ListRoutesResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListRoutesResponse>;
 
-export type ListRoutesError = CommonErrors;
+export type ListRoutesError = CommonErrors | InvalidRoute;
 
 export const listRoutes: API.OperationMethod<
   ListRoutesRequest,
@@ -4515,7 +4580,7 @@ export const listRoutes: API.OperationMethod<
 > = API.make(() => ({
   input: ListRoutesRequest,
   output: ListRoutesResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface CreateRouteRequest {
@@ -4550,7 +4615,10 @@ export const CreateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateRouteResponse>;
 
-export type CreateRouteError = CommonErrors;
+export type CreateRouteError =
+  | CommonErrors
+  | InvalidRoutePattern
+  | InvalidRoute;
 
 export const createRoute: API.OperationMethod<
   CreateRouteRequest,
@@ -4560,7 +4628,7 @@ export const createRoute: API.OperationMethod<
 > = API.make(() => ({
   input: CreateRouteRequest,
   output: CreateRouteResponse,
-  errors: [],
+  errors: [InvalidRoutePattern, InvalidRoute],
 }));
 
 export interface UpdateRouteRequest {
@@ -4597,7 +4665,10 @@ export const UpdateRouteResponse = Schema.Struct({
   script: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<UpdateRouteResponse>;
 
-export type UpdateRouteError = CommonErrors;
+export type UpdateRouteError =
+  | CommonErrors
+  | RouteNotFound
+  | InvalidRoutePattern;
 
 export const updateRoute: API.OperationMethod<
   UpdateRouteRequest,
@@ -4607,7 +4678,7 @@ export const updateRoute: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateRouteRequest,
   output: UpdateRouteResponse,
-  errors: [],
+  errors: [RouteNotFound, InvalidRoutePattern],
 }));
 
 export interface DeleteRouteRequest {
@@ -4635,7 +4706,7 @@ export const DeleteRouteResponse = Schema.Struct({
   id: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<DeleteRouteResponse>;
 
-export type DeleteRouteError = CommonErrors;
+export type DeleteRouteError = CommonErrors | RouteNotFound;
 
 export const deleteRoute: API.OperationMethod<
   DeleteRouteRequest,
@@ -4645,7 +4716,7 @@ export const deleteRoute: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteRouteRequest,
   output: DeleteRouteResponse,
-  errors: [],
+  errors: [RouteNotFound],
 }));
 
 // =============================================================================
@@ -4673,7 +4744,7 @@ export type GetScriptResponse = unknown;
 export const GetScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptResponse>;
 
-export type GetScriptError = CommonErrors;
+export type GetScriptError = CommonErrors | WorkerNotFound | InvalidRoute;
 
 export const getScript: API.OperationMethod<
   GetScriptRequest,
@@ -4683,7 +4754,7 @@ export const getScript: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptRequest,
   output: GetScriptResponse,
-  errors: [],
+  errors: [WorkerNotFound, InvalidRoute],
 }));
 
 export interface ListScriptsRequest {
@@ -4958,7 +5029,7 @@ export const ListScriptsResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<ListScriptsResponse>;
 
-export type ListScriptsError = CommonErrors;
+export type ListScriptsError = CommonErrors | InvalidRoute;
 
 export const listScripts: API.OperationMethod<
   ListScriptsRequest,
@@ -4968,7 +5039,7 @@ export const listScripts: API.OperationMethod<
 > = API.make(() => ({
   input: ListScriptsRequest,
   output: ListScriptsResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface PutScriptRequest {
@@ -5800,7 +5871,7 @@ export const PutScriptResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PutScriptResponse>;
 
-export type PutScriptError = CommonErrors;
+export type PutScriptError = CommonErrors | InvalidRoute;
 
 export const putScript: API.OperationMethod<
   PutScriptRequest,
@@ -5810,7 +5881,7 @@ export const putScript: API.OperationMethod<
 > = API.make(() => ({
   input: PutScriptRequest,
   output: PutScriptResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface DeleteScriptRequest {
@@ -5837,7 +5908,7 @@ export type DeleteScriptResponse = unknown;
 export const DeleteScriptResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptResponse>;
 
-export type DeleteScriptError = CommonErrors;
+export type DeleteScriptError = CommonErrors | WorkerNotFound;
 
 export const deleteScript: API.OperationMethod<
   DeleteScriptRequest,
@@ -5847,7 +5918,7 @@ export const deleteScript: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteScriptRequest,
   output: DeleteScriptResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface SearchScriptRequest {
@@ -5885,7 +5956,7 @@ export type SearchScriptResponse = {
   createdOn: string;
   modifiedOn: string;
   scriptName: string;
-  scriptTag: string;
+  scriptTag?: string;
   environmentIsDefault?: boolean;
   environmentName?: string;
   serviceName?: string;
@@ -5896,7 +5967,7 @@ export const SearchScriptResponse = Schema.Array(
     createdOn: Schema.String,
     modifiedOn: Schema.String,
     scriptName: Schema.String,
-    scriptTag: Schema.String,
+    scriptTag: Schema.optional(Schema.String),
     environmentIsDefault: Schema.optional(Schema.Boolean),
     environmentName: Schema.optional(Schema.String),
     serviceName: Schema.optional(Schema.String),
@@ -5913,7 +5984,7 @@ export const SearchScriptResponse = Schema.Array(
   ),
 ) as unknown as Schema.Schema<SearchScriptResponse>;
 
-export type SearchScriptError = CommonErrors;
+export type SearchScriptError = CommonErrors | InvalidRoute;
 
 export const searchScript: API.OperationMethod<
   SearchScriptRequest,
@@ -5923,7 +5994,7 @@ export const searchScript: API.OperationMethod<
 > = API.make(() => ({
   input: SearchScriptRequest,
   output: SearchScriptResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 // =============================================================================
@@ -5999,7 +6070,7 @@ export type GetScriptContentResponse = unknown;
 export const GetScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptContentResponse>;
 
-export type GetScriptContentError = CommonErrors;
+export type GetScriptContentError = CommonErrors | WorkerNotFound;
 
 export const getScriptContent: API.OperationMethod<
   GetScriptContentRequest,
@@ -6009,7 +6080,7 @@ export const getScriptContent: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptContentRequest,
   output: GetScriptContentResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PutScriptContentRequest {
@@ -6057,7 +6128,10 @@ export type PutScriptContentResponse = unknown;
 export const PutScriptContentResponse =
   Schema.Unknown as unknown as Schema.Schema<PutScriptContentResponse>;
 
-export type PutScriptContentError = CommonErrors;
+export type PutScriptContentError =
+  | CommonErrors
+  | WorkerNotFound
+  | InvalidWorkerScript;
 
 export const putScriptContent: API.OperationMethod<
   PutScriptContentRequest,
@@ -6067,7 +6141,7 @@ export const putScriptContent: API.OperationMethod<
 > = API.make(() => ({
   input: PutScriptContentRequest,
   output: PutScriptContentResponse,
-  errors: [],
+  errors: [WorkerNotFound, InvalidWorkerScript],
 }));
 
 // =============================================================================
@@ -6139,7 +6213,10 @@ export const GetScriptDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptDeploymentResponse>;
 
-export type GetScriptDeploymentError = CommonErrors;
+export type GetScriptDeploymentError =
+  | CommonErrors
+  | WorkerNotFound
+  | DeploymentNotFound;
 
 export const getScriptDeployment: API.OperationMethod<
   GetScriptDeploymentRequest,
@@ -6149,7 +6226,7 @@ export const getScriptDeployment: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptDeploymentRequest,
   output: GetScriptDeploymentResponse,
-  errors: [],
+  errors: [WorkerNotFound, DeploymentNotFound],
 }));
 
 export interface ListScriptDeploymentsRequest {
@@ -6227,7 +6304,7 @@ export const ListScriptDeploymentsResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListScriptDeploymentsResponse>;
 
-export type ListScriptDeploymentsError = CommonErrors;
+export type ListScriptDeploymentsError = CommonErrors | WorkerNotFound;
 
 export const listScriptDeployments: API.OperationMethod<
   ListScriptDeploymentsRequest,
@@ -6237,7 +6314,7 @@ export const listScriptDeployments: API.OperationMethod<
 > = API.make(() => ({
   input: ListScriptDeploymentsRequest,
   output: ListScriptDeploymentsResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface CreateScriptDeploymentRequest {
@@ -6281,25 +6358,30 @@ export const CreateScriptDeploymentRequest = Schema.Struct({
 
 export interface CreateScriptDeploymentResponse {
   id: string;
-  createdOn: string;
-  source: string;
-  strategy: "percentage";
-  versions: { percentage: number; versionId: string }[];
+  createdOn?: string;
+  source?: string;
+  strategy?: "percentage";
+  versions?: { percentage: number; versionId: string }[];
   annotations?: { "workers/message"?: string; "workers/triggeredBy"?: string };
   authorEmail?: string;
 }
 
 export const CreateScriptDeploymentResponse = Schema.Struct({
   id: Schema.String,
-  createdOn: Schema.String,
-  source: Schema.String,
-  strategy: Schema.Literal("percentage"),
-  versions: Schema.Array(
-    Schema.Struct({
-      percentage: Schema.Number,
-      versionId: Schema.String,
-    }).pipe(
-      Schema.encodeKeys({ percentage: "percentage", versionId: "version_id" }),
+  createdOn: Schema.optional(Schema.String),
+  source: Schema.optional(Schema.String),
+  strategy: Schema.optional(Schema.Literal("percentage")),
+  versions: Schema.optional(
+    Schema.Array(
+      Schema.Struct({
+        percentage: Schema.Number,
+        versionId: Schema.String,
+      }).pipe(
+        Schema.encodeKeys({
+          percentage: "percentage",
+          versionId: "version_id",
+        }),
+      ),
     ),
   ),
   annotations: Schema.optional(
@@ -6326,7 +6408,7 @@ export const CreateScriptDeploymentResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptDeploymentResponse>;
 
-export type CreateScriptDeploymentError = CommonErrors;
+export type CreateScriptDeploymentError = CommonErrors | WorkerNotFound;
 
 export const createScriptDeployment: API.OperationMethod<
   CreateScriptDeploymentRequest,
@@ -6336,7 +6418,7 @@ export const createScriptDeployment: API.OperationMethod<
 > = API.make(() => ({
   input: CreateScriptDeploymentRequest,
   output: CreateScriptDeploymentResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteScriptDeploymentRequest {
@@ -6416,7 +6498,7 @@ export const DeleteScriptDeploymentResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptDeploymentResponse>;
 
-export type DeleteScriptDeploymentError = CommonErrors;
+export type DeleteScriptDeploymentError = CommonErrors | WorkerNotFound;
 
 export const deleteScriptDeployment: API.OperationMethod<
   DeleteScriptDeploymentRequest,
@@ -6426,7 +6508,7 @@ export const deleteScriptDeployment: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteScriptDeploymentRequest,
   output: DeleteScriptDeploymentResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -6469,7 +6551,7 @@ export const GetScriptScheduleResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetScriptScheduleResponse>;
 
-export type GetScriptScheduleError = CommonErrors;
+export type GetScriptScheduleError = CommonErrors | WorkerNotFound;
 
 export const getScriptSchedule: API.OperationMethod<
   GetScriptScheduleRequest,
@@ -6479,7 +6561,7 @@ export const getScriptSchedule: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptScheduleRequest,
   output: GetScriptScheduleResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PutScriptScheduleRequest {
@@ -6525,7 +6607,7 @@ export const PutScriptScheduleResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutScriptScheduleResponse>;
 
-export type PutScriptScheduleError = CommonErrors;
+export type PutScriptScheduleError = CommonErrors | WorkerNotFound;
 
 export const putScriptSchedule: API.OperationMethod<
   PutScriptScheduleRequest,
@@ -6535,7 +6617,7 @@ export const putScriptSchedule: API.OperationMethod<
 > = API.make(() => ({
   input: PutScriptScheduleRequest,
   output: PutScriptScheduleResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -6663,11 +6745,7 @@ export interface GetScriptScriptAndVersionSettingResponse {
     } | null;
   };
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
-  placement?:
-    | { mode: "smart" }
-    | { region: string }
-    | { hostname: string }
-    | { host: string };
+  placement?: unknown;
   /** Tags associated with the Worker. */
   tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
@@ -6968,22 +7046,7 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
       }),
     ),
   ),
-  placement: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        mode: Schema.Literal("smart"),
-      }),
-      Schema.Struct({
-        region: Schema.String,
-      }),
-      Schema.Struct({
-        hostname: Schema.String,
-      }),
-      Schema.Struct({
-        host: Schema.String,
-      }),
-    ]),
-  ),
+  placement: Schema.optional(Schema.Unknown),
   tags: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
@@ -7008,7 +7071,9 @@ export const GetScriptScriptAndVersionSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptScriptAndVersionSettingResponse>;
 
-export type GetScriptScriptAndVersionSettingError = CommonErrors;
+export type GetScriptScriptAndVersionSettingError =
+  | CommonErrors
+  | WorkerNotFound;
 
 export const getScriptScriptAndVersionSetting: API.OperationMethod<
   GetScriptScriptAndVersionSettingRequest,
@@ -7018,7 +7083,7 @@ export const getScriptScriptAndVersionSetting: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptScriptAndVersionSettingRequest,
   output: GetScriptScriptAndVersionSettingResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PatchScriptScriptAndVersionSettingRequest {
@@ -7512,6 +7577,7 @@ export const PatchScriptScriptAndVersionSettingRequest = Schema.Struct({
   T.Http({
     method: "PATCH",
     path: "/accounts/{account_id}/workers/scripts/{scriptName}/settings",
+    contentType: "multipart",
   }),
 ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingRequest>;
 
@@ -7620,11 +7686,7 @@ export interface PatchScriptScriptAndVersionSettingResponse {
     } | null;
   };
   /** Configuration for [Smart Placement](https://developers.cloudflare.com/workers/configuration/smart-placement). Specify either mode for Smart Placement, or one of region/hostname/host for targeted place */
-  placement?:
-    | { mode: "smart" }
-    | { region: string }
-    | { hostname: string }
-    | { host: string };
+  placement?: unknown;
   /** Tags associated with the Worker. */
   tags?: string[] | null;
   /** List of Workers that will consume logs from the attached Worker. */
@@ -7925,22 +7987,7 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
       }),
     ),
   ),
-  placement: Schema.optional(
-    Schema.Union([
-      Schema.Struct({
-        mode: Schema.Literal("smart"),
-      }),
-      Schema.Struct({
-        region: Schema.String,
-      }),
-      Schema.Struct({
-        hostname: Schema.String,
-      }),
-      Schema.Struct({
-        host: Schema.String,
-      }),
-    ]),
-  ),
+  placement: Schema.optional(Schema.Unknown),
   tags: Schema.optional(
     Schema.Union([Schema.Array(Schema.String), Schema.Null]),
   ),
@@ -7965,7 +8012,10 @@ export const PatchScriptScriptAndVersionSettingResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<PatchScriptScriptAndVersionSettingResponse>;
 
-export type PatchScriptScriptAndVersionSettingError = CommonErrors;
+export type PatchScriptScriptAndVersionSettingError =
+  | CommonErrors
+  | WorkerNotFound
+  | ContentTypeRequired;
 
 export const patchScriptScriptAndVersionSetting: API.OperationMethod<
   PatchScriptScriptAndVersionSettingRequest,
@@ -7975,7 +8025,7 @@ export const patchScriptScriptAndVersionSetting: API.OperationMethod<
 > = API.make(() => ({
   input: PatchScriptScriptAndVersionSettingRequest,
   output: PatchScriptScriptAndVersionSettingResponse,
-  errors: [],
+  errors: [WorkerNotFound, ContentTypeRequired],
 }));
 
 // =============================================================================
@@ -8047,7 +8097,10 @@ export const GetScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<GetScriptSecretResponse>;
 
-export type GetScriptSecretError = CommonErrors;
+export type GetScriptSecretError =
+  | CommonErrors
+  | WorkerNotFound
+  | SecretNotFound;
 
 export const getScriptSecret: API.OperationMethod<
   GetScriptSecretRequest,
@@ -8057,7 +8110,7 @@ export const getScriptSecret: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptSecretRequest,
   output: GetScriptSecretResponse,
-  errors: [],
+  errors: [WorkerNotFound, SecretNotFound],
 }));
 
 export interface ListScriptSecretsRequest {
@@ -8123,7 +8176,7 @@ export const ListScriptSecretsResponse = Schema.Array(
   ]),
 ) as unknown as Schema.Schema<ListScriptSecretsResponse>;
 
-export type ListScriptSecretsError = CommonErrors;
+export type ListScriptSecretsError = CommonErrors | WorkerNotFound;
 
 export const listScriptSecrets: API.OperationMethod<
   ListScriptSecretsRequest,
@@ -8133,7 +8186,7 @@ export const listScriptSecrets: API.OperationMethod<
 > = API.make(() => ({
   input: ListScriptSecretsRequest,
   output: ListScriptSecretsResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PutScriptSecretRequest {
@@ -8205,7 +8258,7 @@ export const PutScriptSecretResponse = Schema.Union([
   }),
 ]) as unknown as Schema.Schema<PutScriptSecretResponse>;
 
-export type PutScriptSecretError = CommonErrors;
+export type PutScriptSecretError = CommonErrors | WorkerNotFound;
 
 export const putScriptSecret: API.OperationMethod<
   PutScriptSecretRequest,
@@ -8215,7 +8268,7 @@ export const putScriptSecret: API.OperationMethod<
 > = API.make(() => ({
   input: PutScriptSecretRequest,
   output: PutScriptSecretResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteScriptSecretRequest {
@@ -8244,7 +8297,10 @@ export type DeleteScriptSecretResponse = unknown;
 export const DeleteScriptSecretResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteScriptSecretResponse>;
 
-export type DeleteScriptSecretError = CommonErrors;
+export type DeleteScriptSecretError =
+  | CommonErrors
+  | WorkerNotFound
+  | SecretNotFound;
 
 export const deleteScriptSecret: API.OperationMethod<
   DeleteScriptSecretRequest,
@@ -8254,7 +8310,7 @@ export const deleteScriptSecret: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteScriptSecretRequest,
   output: DeleteScriptSecretResponse,
-  errors: [],
+  errors: [WorkerNotFound, SecretNotFound],
 }));
 
 // =============================================================================
@@ -8282,7 +8338,7 @@ export type GetScriptSettingResponse = unknown;
 export const GetScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<GetScriptSettingResponse>;
 
-export type GetScriptSettingError = CommonErrors;
+export type GetScriptSettingError = CommonErrors | WorkerNotFound;
 
 export const getScriptSetting: API.OperationMethod<
   GetScriptSettingRequest,
@@ -8292,7 +8348,7 @@ export const getScriptSetting: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptSettingRequest,
   output: GetScriptSettingResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface PatchScriptSettingRequest {
@@ -8386,7 +8442,7 @@ export type PatchScriptSettingResponse = unknown;
 export const PatchScriptSettingResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchScriptSettingResponse>;
 
-export type PatchScriptSettingError = CommonErrors;
+export type PatchScriptSettingError = CommonErrors | WorkerNotFound;
 
 export const patchScriptSetting: API.OperationMethod<
   PatchScriptSettingRequest,
@@ -8396,7 +8452,7 @@ export const patchScriptSetting: API.OperationMethod<
 > = API.make(() => ({
   input: PatchScriptSettingRequest,
   output: PatchScriptSettingResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -8436,7 +8492,7 @@ export const GetScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<GetScriptSubdomainResponse>;
 
-export type GetScriptSubdomainError = CommonErrors;
+export type GetScriptSubdomainError = CommonErrors | WorkerNotFound;
 
 export const getScriptSubdomain: API.OperationMethod<
   GetScriptSubdomainRequest,
@@ -8446,7 +8502,7 @@ export const getScriptSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptSubdomainRequest,
   output: GetScriptSubdomainResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface CreateScriptSubdomainRequest {
@@ -8492,7 +8548,7 @@ export const CreateScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptSubdomainResponse>;
 
-export type CreateScriptSubdomainError = CommonErrors;
+export type CreateScriptSubdomainError = CommonErrors | WorkerNotFound;
 
 export const createScriptSubdomain: API.OperationMethod<
   CreateScriptSubdomainRequest,
@@ -8502,7 +8558,7 @@ export const createScriptSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: CreateScriptSubdomainRequest,
   output: CreateScriptSubdomainResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteScriptSubdomainRequest {
@@ -8538,7 +8594,7 @@ export const DeleteScriptSubdomainResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<DeleteScriptSubdomainResponse>;
 
-export type DeleteScriptSubdomainError = CommonErrors;
+export type DeleteScriptSubdomainError = CommonErrors | WorkerNotFound;
 
 export const deleteScriptSubdomain: API.OperationMethod<
   DeleteScriptSubdomainRequest,
@@ -8548,7 +8604,7 @@ export const deleteScriptSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteScriptSubdomainRequest,
   output: DeleteScriptSubdomainResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -8586,7 +8642,7 @@ export const GetScriptTailResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<GetScriptTailResponse>;
 
-export type GetScriptTailError = CommonErrors;
+export type GetScriptTailError = CommonErrors | WorkerNotFound;
 
 export const getScriptTail: API.OperationMethod<
   GetScriptTailRequest,
@@ -8596,7 +8652,7 @@ export const getScriptTail: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptTailRequest,
   output: GetScriptTailResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface CreateScriptTailRequest {
@@ -8633,7 +8689,7 @@ export const CreateScriptTailResponse = Schema.Struct({
   Schema.encodeKeys({ id: "id", expiresAt: "expires_at", url: "url" }),
 ) as unknown as Schema.Schema<CreateScriptTailResponse>;
 
-export type CreateScriptTailError = CommonErrors;
+export type CreateScriptTailError = CommonErrors | WorkerNotFound;
 
 export const createScriptTail: API.OperationMethod<
   CreateScriptTailRequest,
@@ -8643,7 +8699,7 @@ export const createScriptTail: API.OperationMethod<
 > = API.make(() => ({
   input: CreateScriptTailRequest,
   output: CreateScriptTailResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface DeleteScriptTailRequest {
@@ -8723,7 +8779,7 @@ export const DeleteScriptTailResponse = Schema.Struct({
   success: Schema.Literal(true),
 }) as unknown as Schema.Schema<DeleteScriptTailResponse>;
 
-export type DeleteScriptTailError = CommonErrors;
+export type DeleteScriptTailError = CommonErrors | WorkerNotFound;
 
 export const deleteScriptTail: API.OperationMethod<
   DeleteScriptTailRequest,
@@ -8733,7 +8789,7 @@ export const deleteScriptTail: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteScriptTailRequest,
   output: DeleteScriptTailResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -9219,7 +9275,10 @@ export const GetScriptVersionResponse = Schema.Struct({
   number: Schema.optional(Schema.Number),
 }) as unknown as Schema.Schema<GetScriptVersionResponse>;
 
-export type GetScriptVersionError = CommonErrors;
+export type GetScriptVersionError =
+  | CommonErrors
+  | WorkerNotFound
+  | VersionNotFound;
 
 export const getScriptVersion: API.OperationMethod<
   GetScriptVersionRequest,
@@ -9229,7 +9288,7 @@ export const getScriptVersion: API.OperationMethod<
 > = API.make(() => ({
   input: GetScriptVersionRequest,
   output: GetScriptVersionResponse,
-  errors: [],
+  errors: [WorkerNotFound, VersionNotFound],
 }));
 
 export interface ListScriptVersionsRequest {
@@ -9313,7 +9372,7 @@ export const ListScriptVersionsResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListScriptVersionsResponse>;
 
-export type ListScriptVersionsError = CommonErrors;
+export type ListScriptVersionsError = CommonErrors | WorkerNotFound;
 
 export const listScriptVersions: API.OperationMethod<
   ListScriptVersionsRequest,
@@ -9323,7 +9382,7 @@ export const listScriptVersions: API.OperationMethod<
 > = API.make(() => ({
   input: ListScriptVersionsRequest,
   output: ListScriptVersionsResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 export interface CreateScriptVersionRequest {
@@ -10205,7 +10264,7 @@ export const CreateScriptVersionResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<CreateScriptVersionResponse>;
 
-export type CreateScriptVersionError = CommonErrors;
+export type CreateScriptVersionError = CommonErrors | WorkerNotFound;
 
 export const createScriptVersion: API.OperationMethod<
   CreateScriptVersionRequest,
@@ -10215,7 +10274,7 @@ export const createScriptVersion: API.OperationMethod<
 > = API.make(() => ({
   input: CreateScriptVersionRequest,
   output: CreateScriptVersionResponse,
-  errors: [],
+  errors: [WorkerNotFound],
 }));
 
 // =============================================================================
@@ -10241,7 +10300,7 @@ export const GetSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<GetSubdomainResponse>;
 
-export type GetSubdomainError = CommonErrors;
+export type GetSubdomainError = CommonErrors | InvalidRoute;
 
 export const getSubdomain: API.OperationMethod<
   GetSubdomainRequest,
@@ -10251,7 +10310,7 @@ export const getSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: GetSubdomainRequest,
   output: GetSubdomainResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface PutSubdomainRequest {
@@ -10276,7 +10335,7 @@ export const PutSubdomainResponse = Schema.Struct({
   subdomain: Schema.String,
 }) as unknown as Schema.Schema<PutSubdomainResponse>;
 
-export type PutSubdomainError = CommonErrors;
+export type PutSubdomainError = CommonErrors | InvalidRoute;
 
 export const putSubdomain: API.OperationMethod<
   PutSubdomainRequest,
@@ -10286,7 +10345,7 @@ export const putSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: PutSubdomainRequest,
   output: PutSubdomainResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));
 
 export interface DeleteSubdomainRequest {
@@ -10308,7 +10367,7 @@ export type DeleteSubdomainResponse = unknown;
 export const DeleteSubdomainResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteSubdomainResponse>;
 
-export type DeleteSubdomainError = CommonErrors;
+export type DeleteSubdomainError = CommonErrors | InvalidRoute;
 
 export const deleteSubdomain: API.OperationMethod<
   DeleteSubdomainRequest,
@@ -10318,5 +10377,5 @@ export const deleteSubdomain: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteSubdomainRequest,
   output: DeleteSubdomainResponse,
-  errors: [],
+  errors: [InvalidRoute],
 }));

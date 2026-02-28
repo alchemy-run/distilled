@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "RouteNotFound": [{ "code": 10009 }],
+    "InvalidRoutePattern": [{ "code": 10022 }]
+  }
+}

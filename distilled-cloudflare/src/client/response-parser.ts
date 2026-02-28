@@ -12,6 +12,17 @@ import { CloudflareHttpError, UnknownCloudflareError } from "../errors.ts";
 import * as T from "../traits.ts";
 
 /**
+ * Check if a schema AST represents an array type.
+ * Follows encoding chains and Suspend wrappers.
+ */
+function isArraySchema(ast: AST.AST): boolean {
+  if (ast._tag === "Arrays") return true;
+  if (ast._tag === "Suspend") return isArraySchema(ast.thunk());
+  if (ast.encoding && ast.encoding.length > 0) return isArraySchema(ast.encoding[0].to);
+  return false;
+}
+
+/**
  * Recursively remap JSON keys from wire format (snake_case) to schema format (camelCase)
  * using JsonName annotations in the schema AST.
  *
@@ -577,11 +588,23 @@ export const parseResponse = <S extends Schema.Top>(
 
     // Decode the result directly using the output schema
     // The output schema represents the unwrapped result type (not the Cloudflare envelope)
+    //
+    // Some paginated APIs (V4PagePagination) return { items: [...] } inside result
+    // while the schema expects a bare array. Detect this and unwrap automatically.
+    let rawResult: unknown = envelope.result ?? {};
+    if (
+      isArraySchema(outputSchema.ast) &&
+      !Array.isArray(rawResult) &&
+      typeof rawResult === "object" &&
+      rawResult !== null &&
+      "items" in rawResult &&
+      Array.isArray((rawResult as Record<string, unknown>).items)
+    ) {
+      rawResult = (rawResult as Record<string, unknown>).items;
+    }
+
     // Remap snake_case keys to camelCase using JsonName annotations before decode
-    const remappedResult = remapKeysForDecode(
-      envelope.result ?? {},
-      outputSchema.ast,
-    );
+    const remappedResult = remapKeysForDecode(rawResult, outputSchema.ast);
     const result = yield* Schema.decodeUnknownEffect(outputSchema)(
       remappedResult,
     ).pipe(

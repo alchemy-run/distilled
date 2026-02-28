@@ -796,9 +796,10 @@ function generateOperationSchema(
       .join(", ");
     pipes.push(`Schema.encodeKeys({ ${encodeKeysEntries} })`);
   }
-  // Add contentType: "multipart" when operation has file uploads
+  // Add contentType: "multipart" when operation has file uploads or uses multipartFormRequestOptions
   const hasFiles = operationHasFiles(op);
-  const httpTrait = hasFiles
+  const isMultipart = hasFiles || op.isMultipart;
+  const httpTrait = isMultipart
     ? `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}", contentType: "multipart" })`
     : `T.Http({ method: "${op.httpMethod}", path: "${openApiPath}" })`;
   pipes.push(httpTrait);

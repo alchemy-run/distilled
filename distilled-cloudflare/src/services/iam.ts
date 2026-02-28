@@ -19,6 +19,16 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class InvalidMember extends Schema.TaggedErrorClass<InvalidMember>()(
+  "InvalidMember",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidMember, [{ code: 400 }]);
+
+// =============================================================================
 // PermissionGroup
 // =============================================================================
 
@@ -150,7 +160,7 @@ export interface GetResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: { key: string; objects: { key: string }[] }[];
+  scope: unknown;
   /** Attributes associated to the resource group. */
   meta?: { key?: string; value?: string };
   /** Name of the resource group. */
@@ -159,16 +169,7 @@ export interface GetResourceGroupResponse {
 
 export const GetResourceGroupResponse = Schema.Struct({
   id: Schema.String,
-  scope: Schema.Array(
-    Schema.Struct({
-      key: Schema.String,
-      objects: Schema.Array(
-        Schema.Struct({
-          key: Schema.String,
-        }),
-      ),
-    }),
-  ),
+  scope: Schema.Unknown,
   meta: Schema.optional(
     Schema.Struct({
       key: Schema.optional(Schema.String),
@@ -210,7 +211,7 @@ export const ListResourceGroupsRequest = Schema.Struct({
 
 export type ListResourceGroupsResponse = {
   id: string;
-  scope: { key: string; objects: { key: string }[] }[];
+  scope: unknown;
   meta?: { key?: string; value?: string };
   name?: string;
 }[];
@@ -218,16 +219,7 @@ export type ListResourceGroupsResponse = {
 export const ListResourceGroupsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    scope: Schema.Array(
-      Schema.Struct({
-        key: Schema.String,
-        objects: Schema.Array(
-          Schema.Struct({
-            key: Schema.String,
-          }),
-        ),
-      }),
-    ),
+    scope: Schema.Unknown,
     meta: Schema.optional(
       Schema.Struct({
         key: Schema.optional(Schema.String),
@@ -282,7 +274,7 @@ export interface CreateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: { key: string; objects: { key: string }[] }[];
+  scope: unknown;
   /** Attributes associated to the resource group. */
   meta?: { key?: string; value?: string };
   /** Name of the resource group. */
@@ -291,16 +283,7 @@ export interface CreateResourceGroupResponse {
 
 export const CreateResourceGroupResponse = Schema.Struct({
   id: Schema.String,
-  scope: Schema.Array(
-    Schema.Struct({
-      key: Schema.String,
-      objects: Schema.Array(
-        Schema.Struct({
-          key: Schema.String,
-        }),
-      ),
-    }),
-  ),
+  scope: Schema.Unknown,
   meta: Schema.optional(
     Schema.Struct({
       key: Schema.optional(Schema.String),
@@ -358,7 +341,7 @@ export interface UpdateResourceGroupResponse {
   /** Identifier of the resource group. */
   id: string;
   /** The scope associated to the resource group */
-  scope: { key: string; objects: { key: string }[] }[];
+  scope: unknown;
   /** Attributes associated to the resource group. */
   meta?: { key?: string; value?: string };
   /** Name of the resource group. */
@@ -367,16 +350,7 @@ export interface UpdateResourceGroupResponse {
 
 export const UpdateResourceGroupResponse = Schema.Struct({
   id: Schema.String,
-  scope: Schema.Array(
-    Schema.Struct({
-      key: Schema.String,
-      objects: Schema.Array(
-        Schema.Struct({
-          key: Schema.String,
-        }),
-      ),
-    }),
-  ),
+  scope: Schema.Unknown,
   meta: Schema.optional(
     Schema.Struct({
       key: Schema.optional(Schema.String),
@@ -1338,7 +1312,7 @@ export const CreateUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<CreateUserGroupMemberResponse>;
 
-export type CreateUserGroupMemberError = CommonErrors;
+export type CreateUserGroupMemberError = CommonErrors | InvalidMember;
 
 export const createUserGroupMember: API.OperationMethod<
   CreateUserGroupMemberRequest,
@@ -1348,7 +1322,7 @@ export const createUserGroupMember: API.OperationMethod<
 > = API.make(() => ({
   input: CreateUserGroupMemberRequest,
   output: CreateUserGroupMemberResponse,
-  errors: [],
+  errors: [InvalidMember],
 }));
 
 export interface UpdateUserGroupMemberRequest {
@@ -1434,7 +1408,7 @@ export const DeleteUserGroupMemberResponse = Schema.Struct({
   status: Schema.optional(Schema.Literals(["accepted", "pending"])),
 }) as unknown as Schema.Schema<DeleteUserGroupMemberResponse>;
 
-export type DeleteUserGroupMemberError = CommonErrors;
+export type DeleteUserGroupMemberError = CommonErrors | InvalidMember;
 
 export const deleteUserGroupMember: API.OperationMethod<
   DeleteUserGroupMemberRequest,
@@ -1444,7 +1418,7 @@ export const deleteUserGroupMember: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteUserGroupMemberRequest,
   output: DeleteUserGroupMemberResponse,
-  errors: [],
+  errors: [InvalidMember],
 }));
 
 // =============================================================================

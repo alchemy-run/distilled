@@ -35,7 +35,7 @@ export interface GetPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -131,7 +131,7 @@ export interface GetPhasResponse {
 
 export const GetPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -518,7 +518,7 @@ export interface PutPhasResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -614,7 +614,7 @@ export interface PutPhasResponse {
 
 export const PutPhasResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -822,7 +822,7 @@ export interface GetPhasVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -918,7 +918,7 @@ export interface GetPhasVersionResponse {
 
 export const GetPhasVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -1116,7 +1116,7 @@ export const ListPhasVersionsRequest = Schema.Struct({}).pipe(
 
 export type ListPhasVersionsResponse = {
   id: string;
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   lastUpdated: string;
   name: string;
   phase:
@@ -1150,7 +1150,7 @@ export type ListPhasVersionsResponse = {
 export const ListPhasVersionsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -1357,7 +1357,7 @@ export interface CreateRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -2109,7 +2109,7 @@ export interface CreateRuleResponse {
 
 export const CreateRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -4269,7 +4269,7 @@ export interface PatchRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -5021,7 +5021,7 @@ export interface PatchRuleResponse {
 
 export const PatchRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -7051,7 +7051,7 @@ export interface DeleteRuleResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -7803,7 +7803,7 @@ export interface DeleteRuleResponse {
 
 export const DeleteRuleResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -9835,7 +9835,7 @@ export interface GetRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -9931,7 +9931,7 @@ export interface GetRulesetResponse {
 
 export const GetRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -10129,7 +10129,7 @@ export const ListRulesetsRequest = Schema.Struct({}).pipe(
 
 export type ListRulesetsResponse = {
   id: string;
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   lastUpdated: string;
   name: string;
   phase:
@@ -10163,7 +10163,7 @@ export type ListRulesetsResponse = {
 export const ListRulesetsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([
@@ -10225,7 +10225,7 @@ export interface CreateRulesetRequest {
   /** Path param: The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId?: string;
   /** Body param: The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** Body param: The human-readable name of the ruleset. */
   name: string;
   /** Body param: The phase of the ruleset. */
@@ -10312,7 +10312,7 @@ export interface CreateRulesetRequest {
 export const CreateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   name: Schema.String,
   phase: Schema.Literals([
     "ddos_l4",
@@ -10472,7 +10472,7 @@ export interface CreateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -10568,7 +10568,7 @@ export interface CreateRulesetResponse {
 
 export const CreateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -10764,7 +10764,7 @@ export interface UpdateRulesetRequest {
   /** Body param: An informative description of the ruleset. */
   description?: string;
   /** Body param: The kind of the ruleset. */
-  kind?: "managed" | "custom" | "root" | "zone";
+  kind?: "zone" | "managed" | "custom" | "root";
   /** Body param: The human-readable name of the ruleset. */
   name?: string;
   /** Body param: The phase of the ruleset. */
@@ -10851,7 +10851,7 @@ export const UpdateRulesetRequest = Schema.Struct({
   accountId: Schema.String.pipe(T.HttpPath("account_id")),
   zoneId: Schema.String.pipe(T.HttpPath("zone_id")),
   description: Schema.optional(Schema.String),
-  kind: Schema.optional(Schema.Literals(["managed", "custom", "root", "zone"])),
+  kind: Schema.optional(Schema.Literals(["zone", "managed", "custom", "root"])),
   name: Schema.optional(Schema.String),
   phase: Schema.optional(
     Schema.Literals([
@@ -11012,7 +11012,7 @@ export interface UpdateRulesetResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -11108,7 +11108,7 @@ export interface UpdateRulesetResponse {
 
 export const UpdateRulesetResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -11349,7 +11349,7 @@ export interface GetVersionResponse {
   /** The unique ID of the ruleset. */
   id: string;
   /** The kind of the ruleset. */
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   /** The timestamp of when the ruleset was last modified. */
   lastUpdated: string;
   /** The human-readable name of the ruleset. */
@@ -11445,7 +11445,7 @@ export interface GetVersionResponse {
 
 export const GetVersionResponse = Schema.Struct({
   id: Schema.String,
-  kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+  kind: Schema.Literals(["zone", "managed", "custom", "root"]),
   lastUpdated: Schema.String,
   name: Schema.String,
   phase: Schema.Literals([
@@ -11647,7 +11647,7 @@ export const ListVersionsRequest = Schema.Struct({
 
 export type ListVersionsResponse = {
   id: string;
-  kind: "managed" | "custom" | "root" | "zone";
+  kind: "zone" | "managed" | "custom" | "root";
   lastUpdated: string;
   name: string;
   phase:
@@ -11681,7 +11681,7 @@ export type ListVersionsResponse = {
 export const ListVersionsResponse = Schema.Array(
   Schema.Struct({
     id: Schema.String,
-    kind: Schema.Literals(["managed", "custom", "root", "zone"]),
+    kind: Schema.Literals(["zone", "managed", "custom", "root"]),
     lastUpdated: Schema.String,
     name: Schema.String,
     phase: Schema.Literals([

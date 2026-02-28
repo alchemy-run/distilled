@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "WorkerNotFound": [{ "code": 10007 }],
+    "InvalidRoute": [{ "code": 7003 }]
+  }
+}

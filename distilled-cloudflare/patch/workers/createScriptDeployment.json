@@ -1,0 +1,14 @@
+{
+  "errors": {
+    "WorkerNotFound": [{ "code": 10007 }]
+  },
+  "response": {
+    "properties": {
+      "created_on": { "optional": true },
+      "source": { "optional": true },
+      "strategy": { "optional": true },
+      "versions": { "optional": true },
+      "author_email": { "optional": true }
+    }
+  }
+}

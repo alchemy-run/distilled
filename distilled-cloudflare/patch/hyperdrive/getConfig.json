@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "PrivateHostNotAllowed": [{ "code": 2009 }],
+    "HyperdriveConfigNotFound": [{ "code": 2006 }],
+    "InvalidObjectIdentifier": [{ "code": 7003 }]
+  }
+}

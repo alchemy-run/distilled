@@ -20,6 +20,46 @@ import {
 import { UploadableSchema } from "../schemas.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class ImageNotFound extends Schema.TaggedErrorClass<ImageNotFound>()(
+  "ImageNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ImageNotFound, [{ code: 5404 }]);
+
+export class ImagesAccessNotEnabled extends Schema.TaggedErrorClass<ImagesAccessNotEnabled>()(
+  "ImagesAccessNotEnabled",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(ImagesAccessNotEnabled, [{ code: 5403 }]);
+
+export class InvalidUploadFormat extends Schema.TaggedErrorClass<InvalidUploadFormat>()(
+  "InvalidUploadFormat",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidUploadFormat, [{ code: 5415 }]);
+
+export class KeyNotFound extends Schema.TaggedErrorClass<KeyNotFound>()(
+  "KeyNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(KeyNotFound, [{ code: 5404 }]);
+
+export class VariantNameNotAllowed extends Schema.TaggedErrorClass<VariantNameNotAllowed>()(
+  "VariantNameNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(VariantNameNotAllowed, [{ code: 5400 }]);
+
+export class VariantNotFound extends Schema.TaggedErrorClass<VariantNotFound>()(
+  "VariantNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(VariantNotFound, [{ code: 5401 }]);
+
+// =============================================================================
 // V1
 // =============================================================================
 
@@ -63,7 +103,7 @@ export const GetV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<GetV1Response>;
 
-export type GetV1Error = CommonErrors;
+export type GetV1Error = CommonErrors | ImagesAccessNotEnabled | ImageNotFound;
 
 export const getV1: API.OperationMethod<
   GetV1Request,
@@ -73,7 +113,7 @@ export const getV1: API.OperationMethod<
 > = API.make(() => ({
   input: GetV1Request,
   output: GetV1Response,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
 export interface ListV1sRequest {
@@ -122,7 +162,7 @@ export const ListV1sResponse = Schema.Array(
   }),
 ) as unknown as Schema.Schema<ListV1sResponse>;
 
-export type ListV1sError = CommonErrors;
+export type ListV1sError = CommonErrors | ImagesAccessNotEnabled;
 
 export const listV1s: API.OperationMethod<
   ListV1sRequest,
@@ -132,7 +172,7 @@ export const listV1s: API.OperationMethod<
 > = API.make(() => ({
   input: ListV1sRequest,
   output: ListV1sResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 export interface CreateV1Request {
@@ -195,7 +235,7 @@ export const CreateV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<CreateV1Response>;
 
-export type CreateV1Error = CommonErrors;
+export type CreateV1Error = CommonErrors | ImagesAccessNotEnabled;
 
 export const createV1: API.OperationMethod<
   CreateV1Request,
@@ -205,7 +245,7 @@ export const createV1: API.OperationMethod<
 > = API.make(() => ({
   input: CreateV1Request,
   output: CreateV1Response,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 export interface PatchV1Request {
@@ -260,7 +300,10 @@ export const PatchV1Response = Schema.Struct({
   variants: Schema.optional(Schema.Array(Schema.String)),
 }) as unknown as Schema.Schema<PatchV1Response>;
 
-export type PatchV1Error = CommonErrors;
+export type PatchV1Error =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | ImageNotFound;
 
 export const patchV1: API.OperationMethod<
   PatchV1Request,
@@ -270,7 +313,7 @@ export const patchV1: API.OperationMethod<
 > = API.make(() => ({
   input: PatchV1Request,
   output: PatchV1Response,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
 export interface DeleteV1Request {
@@ -294,7 +337,10 @@ export type DeleteV1Response = string;
 export const DeleteV1Response =
   Schema.String as unknown as Schema.Schema<DeleteV1Response>;
 
-export type DeleteV1Error = CommonErrors;
+export type DeleteV1Error =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | ImageNotFound;
 
 export const deleteV1: API.OperationMethod<
   DeleteV1Request,
@@ -304,7 +350,7 @@ export const deleteV1: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteV1Request,
   output: DeleteV1Response,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
 // =============================================================================
@@ -332,7 +378,10 @@ export type GetV1BlobResponse = unknown;
 export const GetV1BlobResponse =
   Schema.Unknown as unknown as Schema.Schema<GetV1BlobResponse>;
 
-export type GetV1BlobError = CommonErrors;
+export type GetV1BlobError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | ImageNotFound;
 
 export const getV1Blob: API.OperationMethod<
   GetV1BlobRequest,
@@ -342,7 +391,7 @@ export const getV1Blob: API.OperationMethod<
 > = API.make(() => ({
   input: GetV1BlobRequest,
   output: GetV1BlobResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, ImageNotFound],
 }));
 
 // =============================================================================
@@ -375,7 +424,7 @@ export const ListV1KeysResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<ListV1KeysResponse>;
 
-export type ListV1KeysError = CommonErrors;
+export type ListV1KeysError = CommonErrors | ImagesAccessNotEnabled;
 
 export const listV1Keys: API.OperationMethod<
   ListV1KeysRequest,
@@ -385,7 +434,7 @@ export const listV1Keys: API.OperationMethod<
 > = API.make(() => ({
   input: ListV1KeysRequest,
   output: ListV1KeysResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 export interface PutV1KeyRequest {
@@ -419,7 +468,7 @@ export const PutV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PutV1KeyResponse>;
 
-export type PutV1KeyError = CommonErrors;
+export type PutV1KeyError = CommonErrors | ImagesAccessNotEnabled;
 
 export const putV1Key: API.OperationMethod<
   PutV1KeyRequest,
@@ -429,7 +478,7 @@ export const putV1Key: API.OperationMethod<
 > = API.make(() => ({
   input: PutV1KeyRequest,
   output: PutV1KeyResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 export interface DeleteV1KeyRequest {
@@ -463,7 +512,10 @@ export const DeleteV1KeyResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<DeleteV1KeyResponse>;
 
-export type DeleteV1KeyError = CommonErrors;
+export type DeleteV1KeyError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | KeyNotFound;
 
 export const deleteV1Key: API.OperationMethod<
   DeleteV1KeyRequest,
@@ -473,7 +525,7 @@ export const deleteV1Key: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteV1KeyRequest,
   output: DeleteV1KeyResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, KeyNotFound],
 }));
 
 // =============================================================================
@@ -504,7 +556,7 @@ export const GetV1StatResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1StatResponse>;
 
-export type GetV1StatError = CommonErrors;
+export type GetV1StatError = CommonErrors | ImagesAccessNotEnabled;
 
 export const getV1Stat: API.OperationMethod<
   GetV1StatRequest,
@@ -514,7 +566,7 @@ export const getV1Stat: API.OperationMethod<
 > = API.make(() => ({
   input: GetV1StatRequest,
   output: GetV1StatResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 // =============================================================================
@@ -565,7 +617,11 @@ export const GetV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<GetV1VariantResponse>;
 
-export type GetV1VariantError = CommonErrors;
+export type GetV1VariantError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | VariantNameNotAllowed
+  | VariantNotFound;
 
 export const getV1Variant: API.OperationMethod<
   GetV1VariantRequest,
@@ -575,7 +631,7 @@ export const getV1Variant: API.OperationMethod<
 > = API.make(() => ({
   input: GetV1VariantRequest,
   output: GetV1VariantResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, VariantNameNotAllowed, VariantNotFound],
 }));
 
 export interface ListV1VariantsRequest {
@@ -613,7 +669,7 @@ export const ListV1VariantsResponse = Schema.Struct({
   neverRequireSignedURLs: Schema.optional(Schema.Boolean),
 }) as unknown as Schema.Schema<ListV1VariantsResponse>;
 
-export type ListV1VariantsError = CommonErrors;
+export type ListV1VariantsError = CommonErrors | ImagesAccessNotEnabled;
 
 export const listV1Variants: API.OperationMethod<
   ListV1VariantsRequest,
@@ -623,7 +679,7 @@ export const listV1Variants: API.OperationMethod<
 > = API.make(() => ({
   input: ListV1VariantsRequest,
   output: ListV1VariantsResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 export interface CreateV1VariantRequest {
@@ -684,7 +740,10 @@ export const CreateV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<CreateV1VariantResponse>;
 
-export type CreateV1VariantError = CommonErrors;
+export type CreateV1VariantError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | VariantNameNotAllowed;
 
 export const createV1Variant: API.OperationMethod<
   CreateV1VariantRequest,
@@ -694,7 +753,7 @@ export const createV1Variant: API.OperationMethod<
 > = API.make(() => ({
   input: CreateV1VariantRequest,
   output: CreateV1VariantResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, VariantNameNotAllowed],
 }));
 
 export interface PatchV1VariantRequest {
@@ -757,7 +816,11 @@ export const PatchV1VariantResponse = Schema.Struct({
   ),
 }) as unknown as Schema.Schema<PatchV1VariantResponse>;
 
-export type PatchV1VariantError = CommonErrors;
+export type PatchV1VariantError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | VariantNameNotAllowed
+  | VariantNotFound;
 
 export const patchV1Variant: API.OperationMethod<
   PatchV1VariantRequest,
@@ -767,7 +830,7 @@ export const patchV1Variant: API.OperationMethod<
 > = API.make(() => ({
   input: PatchV1VariantRequest,
   output: PatchV1VariantResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, VariantNameNotAllowed, VariantNotFound],
 }));
 
 export interface DeleteV1VariantRequest {
@@ -791,7 +854,11 @@ export type DeleteV1VariantResponse = string;
 export const DeleteV1VariantResponse =
   Schema.String as unknown as Schema.Schema<DeleteV1VariantResponse>;
 
-export type DeleteV1VariantError = CommonErrors;
+export type DeleteV1VariantError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | VariantNameNotAllowed
+  | VariantNotFound;
 
 export const deleteV1Variant: API.OperationMethod<
   DeleteV1VariantRequest,
@@ -801,7 +868,7 @@ export const deleteV1Variant: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteV1VariantRequest,
   output: DeleteV1VariantResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, VariantNameNotAllowed, VariantNotFound],
 }));
 
 // =============================================================================
@@ -855,7 +922,7 @@ export const ListV2sResponse = Schema.Struct({
   }),
 ) as unknown as Schema.Schema<ListV2sResponse>;
 
-export type ListV2sError = CommonErrors;
+export type ListV2sError = CommonErrors | ImagesAccessNotEnabled;
 
 export const listV2s: API.OperationMethod<
   ListV2sRequest,
@@ -865,7 +932,7 @@ export const listV2s: API.OperationMethod<
 > = API.make(() => ({
   input: ListV2sRequest,
   output: ListV2sResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled],
 }));
 
 // =============================================================================
@@ -913,7 +980,10 @@ export const CreateV2DirectUploadResponse = Schema.Struct({
   uploadURL: Schema.optional(Schema.String),
 }) as unknown as Schema.Schema<CreateV2DirectUploadResponse>;
 
-export type CreateV2DirectUploadError = CommonErrors;
+export type CreateV2DirectUploadError =
+  | CommonErrors
+  | ImagesAccessNotEnabled
+  | InvalidUploadFormat;
 
 export const createV2DirectUpload: API.OperationMethod<
   CreateV2DirectUploadRequest,
@@ -923,5 +993,5 @@ export const createV2DirectUpload: API.OperationMethod<
 > = API.make(() => ({
   input: CreateV2DirectUploadRequest,
   output: CreateV2DirectUploadResponse,
-  errors: [],
+  errors: [ImagesAccessNotEnabled, InvalidUploadFormat],
 }));

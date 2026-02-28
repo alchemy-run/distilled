@@ -19,6 +19,42 @@ import {
 } from "../errors.ts";
 
 // =============================================================================
+// Errors
+// =============================================================================
+
+export class HyperdriveConfigNotFound extends Schema.TaggedErrorClass<HyperdriveConfigNotFound>()(
+  "HyperdriveConfigNotFound",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(HyperdriveConfigNotFound, [{ code: 2006 }]);
+
+export class InvalidHyperdriveConfig extends Schema.TaggedErrorClass<InvalidHyperdriveConfig>()(
+  "InvalidHyperdriveConfig",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidHyperdriveConfig, [{ code: 2007 }]);
+
+export class InvalidObjectIdentifier extends Schema.TaggedErrorClass<InvalidObjectIdentifier>()(
+  "InvalidObjectIdentifier",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(InvalidObjectIdentifier, [{ code: 7003 }]);
+
+export class MethodNotAllowed extends Schema.TaggedErrorClass<MethodNotAllowed>()(
+  "MethodNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(MethodNotAllowed, [
+  { code: 10000, message: { includes: "method not allowed" } },
+]);
+
+export class PrivateHostNotAllowed extends Schema.TaggedErrorClass<PrivateHostNotAllowed>()(
+  "PrivateHostNotAllowed",
+  { code: Schema.Number, message: Schema.String },
+) {}
+T.applyErrorMatchers(PrivateHostNotAllowed, [{ code: 2009 }]);
+
+// =============================================================================
 // Config
 // =============================================================================
 
@@ -43,7 +79,11 @@ export type GetConfigResponse = unknown;
 export const GetConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<GetConfigResponse>;
 
-export type GetConfigError = CommonErrors;
+export type GetConfigError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | HyperdriveConfigNotFound
+  | InvalidObjectIdentifier;
 
 export const getConfig: API.OperationMethod<
   GetConfigRequest,
@@ -53,7 +93,11 @@ export const getConfig: API.OperationMethod<
 > = API.make(() => ({
   input: GetConfigRequest,
   output: GetConfigResponse,
-  errors: [],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+  ],
 }));
 
 export interface ListConfigsRequest {
@@ -72,7 +116,10 @@ export type ListConfigsResponse = unknown;
 export const ListConfigsResponse =
   Schema.Unknown as unknown as Schema.Schema<ListConfigsResponse>;
 
-export type ListConfigsError = CommonErrors;
+export type ListConfigsError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | InvalidObjectIdentifier;
 
 export const listConfigs: API.OperationMethod<
   ListConfigsRequest,
@@ -82,7 +129,7 @@ export const listConfigs: API.OperationMethod<
 > = API.make(() => ({
   input: ListConfigsRequest,
   output: ListConfigsResponse,
-  errors: [],
+  errors: [PrivateHostNotAllowed, InvalidObjectIdentifier],
 }));
 
 export interface CreateConfigRequest {
@@ -203,7 +250,11 @@ export type CreateConfigResponse = unknown;
 export const CreateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<CreateConfigResponse>;
 
-export type CreateConfigError = CommonErrors;
+export type CreateConfigError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | InvalidHyperdriveConfig
+  | InvalidObjectIdentifier;
 
 export const createConfig: API.OperationMethod<
   CreateConfigRequest,
@@ -213,7 +264,11 @@ export const createConfig: API.OperationMethod<
 > = API.make(() => ({
   input: CreateConfigRequest,
   output: CreateConfigResponse,
-  errors: [],
+  errors: [
+    PrivateHostNotAllowed,
+    InvalidHyperdriveConfig,
+    InvalidObjectIdentifier,
+  ],
 }));
 
 export interface UpdateConfigRequest {
@@ -339,7 +394,12 @@ export type UpdateConfigResponse = unknown;
 export const UpdateConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<UpdateConfigResponse>;
 
-export type UpdateConfigError = CommonErrors;
+export type UpdateConfigError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | HyperdriveConfigNotFound
+  | InvalidObjectIdentifier
+  | MethodNotAllowed;
 
 export const updateConfig: API.OperationMethod<
   UpdateConfigRequest,
@@ -349,7 +409,12 @@ export const updateConfig: API.OperationMethod<
 > = API.make(() => ({
   input: UpdateConfigRequest,
   output: UpdateConfigResponse,
-  errors: [],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface PatchConfigRequest {
@@ -464,7 +529,12 @@ export type PatchConfigResponse = unknown;
 export const PatchConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<PatchConfigResponse>;
 
-export type PatchConfigError = CommonErrors;
+export type PatchConfigError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | HyperdriveConfigNotFound
+  | InvalidObjectIdentifier
+  | MethodNotAllowed;
 
 export const patchConfig: API.OperationMethod<
   PatchConfigRequest,
@@ -474,7 +544,12 @@ export const patchConfig: API.OperationMethod<
 > = API.make(() => ({
   input: PatchConfigRequest,
   output: PatchConfigResponse,
-  errors: [],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));
 
 export interface DeleteConfigRequest {
@@ -498,7 +573,12 @@ export type DeleteConfigResponse = unknown;
 export const DeleteConfigResponse =
   Schema.Unknown as unknown as Schema.Schema<DeleteConfigResponse>;
 
-export type DeleteConfigError = CommonErrors;
+export type DeleteConfigError =
+  | CommonErrors
+  | PrivateHostNotAllowed
+  | HyperdriveConfigNotFound
+  | InvalidObjectIdentifier
+  | MethodNotAllowed;
 
 export const deleteConfig: API.OperationMethod<
   DeleteConfigRequest,
@@ -508,5 +588,10 @@ export const deleteConfig: API.OperationMethod<
 > = API.make(() => ({
   input: DeleteConfigRequest,
   output: DeleteConfigResponse,
-  errors: [],
+  errors: [
+    PrivateHostNotAllowed,
+    HyperdriveConfigNotFound,
+    InvalidObjectIdentifier,
+    MethodNotAllowed,
+  ],
 }));

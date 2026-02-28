@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "WorkerNotFound": [{ "code": 10007 }],
+    "InvalidWorkerScript": [{ "code": 10068 }]
+  }
+}

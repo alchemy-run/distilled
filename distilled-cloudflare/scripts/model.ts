@@ -402,6 +402,10 @@ export interface ParsedOperation {
   httpMethod: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   urlTemplate: string; // e.g., "/accounts/${account_id}/r2/buckets"
   urlPathParams: string[]; // Path parameters from URL, e.g., ["account_id", "bucketName"]
+  /** True when the SDK method uses Core.multipartFormRequestOptions */
+  isMultipart?: boolean;
+  /** Pagination wrapper type: "items" when V4PagePagination (result.items), "array" when V4PagePaginationArray/SinglePage (result directly) */
+  paginationType?: "items" | "array";
 
   // =========================================================================
   // From params interface

@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "InvalidRequestBody": [{ "code": 10026 }]
+  },
+  "response": {
+    "properties": {
+      "ackCount": { "optional": true },
+      "retryCount": { "optional": true }
+    }
+  }
+}

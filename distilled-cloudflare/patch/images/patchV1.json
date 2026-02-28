@@ -1,0 +1,6 @@
+{
+  "errors": {
+    "ImagesAccessNotEnabled": [{ "code": 5403 }],
+    "ImageNotFound": [{ "code": 5404 }]
+  }
+}
