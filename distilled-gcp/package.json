@@ -46,7 +46,7 @@
   "scripts": {
     "setup": "bun run scripts/setup.ts",
     "fetch-specs": "bun run scripts/fetch-specs.ts",
-    "generate": "bun run scripts/generate-clients.ts",
+    "build": "bun run scripts/generate-clients.ts",
     "test": "vitest run",
     "test:watch": "vitest watch",
     "typecheck": "tsc -b",
