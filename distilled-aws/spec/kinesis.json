@@ -1,0 +1,12 @@
+{
+  "operations": {},
+  "structures": {
+    "StreamDescriptionSummary": {
+      "members": {
+        "OpenShardCount": {
+          "optional": true
+        }
+      }
+    }
+  }
+}

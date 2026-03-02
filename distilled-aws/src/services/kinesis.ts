@@ -1214,7 +1214,7 @@ export interface StreamDescriptionSummary {
   EnhancedMonitoring: EnhancedMetrics[];
   EncryptionType?: EncryptionType;
   KeyId?: string;
-  OpenShardCount: number;
+  OpenShardCount?: number;
   ConsumerCount?: number;
   WarmThroughput?: WarmThroughputObject;
   MaxRecordSizeInKiB?: number;
@@ -1231,7 +1231,7 @@ export const StreamDescriptionSummary = S.suspend(() =>
     EnhancedMonitoring: EnhancedMonitoringList,
     EncryptionType: S.optional(EncryptionType),
     KeyId: S.optional(S.String),
-    OpenShardCount: S.Number,
+    OpenShardCount: S.optional(S.Number),
     ConsumerCount: S.optional(S.Number),
     WarmThroughput: S.optional(WarmThroughputObject),
     MaxRecordSizeInKiB: S.optional(S.Number),

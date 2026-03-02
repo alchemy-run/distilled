@@ -6,6 +6,7 @@ import {
   deregisterStreamConsumer,
   describeStream,
   describeStreamConsumer,
+  describeStreamSummary,
   getRecords,
   getShardIterator,
   listShards,
@@ -162,6 +163,41 @@ test(
       expect(describeResult.StreamDescription?.StreamStatus).toEqual("ACTIVE");
     }),
   ),
+);
+
+test(
+  "describeStreamSummary during creation (ON_DEMAND)",
+  { timeout: 300_000 },
+  Effect.gen(function* () {
+    const streamName = "distilled-aws-kinesis-ondemand-test";
+
+    // Cleanup from previous runs
+    yield* deleteStream({
+      StreamName: streamName,
+      EnforceConsumerDeletion: true,
+    }).pipe(Effect.ignore);
+    yield* waitForStreamDeleted(streamName);
+
+    // Create ON_DEMAND stream (no ShardCount)
+    yield* createStream({
+      StreamName: streamName,
+      StreamModeDetails: { StreamMode: "ON_DEMAND" },
+    });
+
+    try {
+      // Call describeStreamSummary immediately while stream is still CREATING.
+      // AWS omits OpenShardCount during creation, which must not cause a parse error.
+      const summary = yield* describeStreamSummary({
+        StreamName: streamName,
+      });
+      expect(summary.StreamDescriptionSummary.StreamName).toEqual(streamName);
+    } finally {
+      yield* deleteStream({
+        StreamName: streamName,
+        EnforceConsumerDeletion: true,
+      }).pipe(Effect.ignore);
+    }
+  }),
 );
 
 test(
